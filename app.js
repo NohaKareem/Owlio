@@ -9,13 +9,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-mongoose.connect('mongodb+srv://USER_NAME:PASSWORD_HERE@cluster0-y9uwh.mongodb.net/sample_mflix?retryWrites=true&w=majority',{useNewUrlParser: true},function(err) {
-	if(err) {
-		console.log('error connecting', err);
-	} else {
-		console.log('connected!');
-	}
-});
+// mongoose.connect('',{useNewUrlParser: true},function(err) {
+// 	if(err) {
+// 		console.log('error connecting', err);
+// 	} else {
+// 		console.log('connected!');
+// 	}
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
