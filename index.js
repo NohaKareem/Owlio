@@ -31,24 +31,27 @@ arduino.on('ready', function(){
 
     motion_sensor = new five.Motion({
         pin: 7,
-        freq: 1000
+        freq: 100
     });
 
     motion_sensor.on("calibrated", function() {
-        console.log("calibrated");
+        console.log("calibrated", 1000);
+        io.sockets.emit('calibrated', 1000);
     });
 
     motion_sensor.on("motionstart", function() {
-    console.log("motionstart");
+        console.log("motionstart", 1000);
+        io.sockets.emit('motionstart', 1000);
     });
 
    motion_sensor.on("motionend", function() {
-   console.log("motionend");
+        io.sockets.emit('motionend', 1000);
+        console.log("motionend", 1000);
    });
 
    motion_sensor.on("data", function(data) {
-    console.log(data);
-    io.sockets.emit('motioncal');
+    // console.log(data);
+    // io.sockets.emit('motioncal');
   });
 
 })  

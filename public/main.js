@@ -11,6 +11,15 @@ socket.on('photoresistor', function(photoresistor){
 });
 
 socket.on('motioncal', function(motioncal){
-	console.log(motioncal);
+	console.log("motion calibrated");
 	motion.innerHTML = motioncal;
+});
+
+socket.on('motionstart', function(motionstart){
+	console.log("motion started");
+	motion.innerHTML = motionstart;
+});
+socket.on('motionend', function(motionend){
+	console.log("motion ended");
+	motion.innerHTML = motionend;
 });
