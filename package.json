@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www", 
+    "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
@@ -14,13 +14,15 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "express": "^4.16.4",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "http-errors": "~1.6.3",
+    "johnny-five": "^1.4.0",
     "mongoose": "^5.8.9",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "socket.io": "^2.3.0"
   },
   "description": "A reading companion app",
   "main": "app.js",
