@@ -15,7 +15,8 @@ let arduino = new five.Board();
 let photoresistor;
 let motion_sensor;
 let barcode_scanner;
-let neopixel;
+let pixel = require("node-pixel");
+let strip = null;
 
 arduino.on('ready', function(){
     console.log("arduino is running! you run too.");
@@ -54,5 +55,21 @@ arduino.on('ready', function(){
     // io.sockets.emit('motioncal');
   });
 
+  strip = new pixel.Strip({
+    board:this,
+    controller: "I2CBACKPACK",
+    pin:4,
+    length: 16,
+    gamma: 2.8
+  });
+    
+
+  strip.on("ready", function(){
+      strip.color("#ff0000");
+      strip.show();
+      console.log("light connected");
+      console.log(strip);
+  });
+    
 })  
 
