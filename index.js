@@ -56,20 +56,21 @@ arduino.on('ready', function(){
   });
 
   strip = new pixel.Strip({
-    board:this,
+    board: this,
+    // controller: "FIRMATA",
     controller: "I2CBACKPACK",
-    pin:4,
-    length: 16,
+    // pin:4,
+    // length: 16,
+    strips: [{ pin: 4, length: 16 }],
     gamma: 2.8
   });
-    
 
   strip.on("ready", function(){
       strip.color("#ff0000");
       strip.show();
       console.log("light connected");
-      console.log(strip);
+    //   console.log(strip);
   });
     
-})  
+}); 
 
