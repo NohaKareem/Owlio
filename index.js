@@ -31,8 +31,7 @@ arduino.on('ready', function(){
     });
 
     motion_sensor = new five.Motion({
-        pin: 7,
-        freq: 100
+        pin: 7
     });
 
     motion_sensor.on("calibrated", function() {
@@ -73,4 +72,3 @@ arduino.on('ready', function(){
   });
     
 }); 
-
