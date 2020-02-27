@@ -50,7 +50,7 @@ arduino.on('ready', function(){
    });
 
    motion_sensor.on("data", function(data) {
-    // console.log(data);
+    console.log(data);
     // io.sockets.emit('motioncal');
   });
 
