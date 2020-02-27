@@ -28,6 +28,7 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
   font-size: 100%;
+  /* font-size: 30px; */
   max-width: 1920px;
   margin: 0;
 }
@@ -47,10 +48,12 @@ h2 {
 a {
   text-decoration: none;
   font-size: 1rem; 
+  /* font-size: 30px; */
 }
 
 p{
     font-weight: lighter;
+    font-size: 20px;
 }
 
 .main{
