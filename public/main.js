@@ -24,7 +24,8 @@ socket.on('motionend', function(motionend){
 	motion.innerHTML = motionend;
 });
 
-const BARCODABLE_API = "https://api.barcodable.com/api/v1/upc/";
+var barcode = '9780140157376';
+const BARCODABLE_API = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;// "https://api.barcodable.com/api/v1/upc/";
 const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
 
 /* helper methods */ 
@@ -32,8 +33,6 @@ const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
 function axiosCall(url, responseMethod) {
 	axios.get(url)
 	.then(function(response) {
-		var id = [];
-		getIdsFromURL([url], id, true);
 		responseMethod(response); 
 	})
 	.catch(function(error) {
@@ -43,8 +42,9 @@ function axiosCall(url, responseMethod) {
 
 // finds book by input barcode using barcodable API
 function findBookByBarcode(barcode) {
-	console.log('in findBooyByBarcode');
-	axiosCall(BARCODABLE_API + barcode, (response) => {
+	console.log('in findBookByBarcode');
+	axiosCall(BARCODABLE_API, (response) => {
+		// axiosCall(BARCODABLE_API + barcode, (response) => {
 		console.log(response.data);
 	} );
 }
