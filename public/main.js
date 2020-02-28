@@ -26,23 +26,7 @@ socket.on('motionend', function(motionend){
 
 let barcode = document.querySelector('#barcodeInput');//'9780140157376';
 let barcodeButton = document.querySelector('#barcodeButton');
-// let barcode = '9780140157376';
 let isbn;
-
-// const BARCODABLE_API = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;// "https://api.barcodable.com/api/v1/upc/";
-const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-
-/* helper methods */ 
-// generates axios call using url and handles response using responseMethod
-function axiosCall(url, responseMethod) {
-	axios.get(url)
-	.then(function(response) {
-		responseMethod(response); 
-	})
-	.catch(function(error) {
-		console.error(error);
-	});
-}
 
 // finds book by input barcode using barcodable API
 function findBookByBarcode() { //(barcode)
@@ -58,11 +42,20 @@ function findBookByBarcode() { //(barcode)
 		addedBookTitle.innerHTML = bookTitle; 
 		addedBookImage.src = response.data.products[0].images[0]; 
 		addedBookImage.alt = bookTitle + " image"; 
-		console.log(response.data);
+		// console.log(response.data);
 	} );
 }
 
-barcodeButton.addEventListener("click", findBookByBarcode);
+/* helper methods */ 
+// generates axios call using url and handles response using responseMethod
+function axiosCall(url, responseMethod) {
+	axios.get(url)
+	.then(function(response) {
+		responseMethod(response); 
+	})
+	.catch(function(error) {
+		console.error(error);
+	});
+}
 
-// findBookByBarcode(9781455586691);
-// findBookByBarcode(barcode);
+barcodeButton.addEventListener("click", findBookByBarcode);
