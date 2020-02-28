@@ -24,8 +24,12 @@ socket.on('motionend', function(motionend){
 	motion.innerHTML = motionend;
 });
 
-var barcode = '9780140157376';
-const BARCODABLE_API = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;// "https://api.barcodable.com/api/v1/upc/";
+let barcode = document.querySelector('#barcodeInput');//'9780140157376';
+let barcodeButton = document.querySelector('#barcodeButton');
+// let barcode = '9780140157376';
+let isbn;
+
+// const BARCODABLE_API = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;// "https://api.barcodable.com/api/v1/upc/";
 const GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
 
 /* helper methods */ 
@@ -41,12 +45,24 @@ function axiosCall(url, responseMethod) {
 }
 
 // finds book by input barcode using barcodable API
-function findBookByBarcode(barcode) {
-	console.log('in findBookByBarcode');
-	axiosCall(BARCODABLE_API, (response) => {
-		// axiosCall(BARCODABLE_API + barcode, (response) => {
+function findBookByBarcode() { //(barcode)
+	barcode = document.querySelector('#barcodeInput');
+	barcode = barcode.value;
+	console.log(barcode)
+
+	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;
+	axiosCall(barcode_api, (response) => {
+		let addedBookTitle = document.querySelector('#addedBookTitle');
+		let addedBookImage = document.querySelector('#addedBookImage');
+		let bookTitle = response.data.products[0].title;
+		addedBookTitle.innerHTML = bookTitle; 
+		addedBookImage.src = response.data.products[0].images[0]; 
+		addedBookImage.alt = bookTitle + " image"; 
 		console.log(response.data);
 	} );
 }
 
-findBookByBarcode(9781455586691);
+barcodeButton.addEventListener("click", findBookByBarcode);
+
+// findBookByBarcode(9781455586691);
+// findBookByBarcode(barcode);

@@ -69,7 +69,6 @@ arduino.on('ready', function(){
       strip.color("#ff0000");
       strip.show();
       console.log("light connected");
-    //   console.log(strip);
   });
     
 }); 

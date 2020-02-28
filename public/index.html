@@ -48,13 +48,6 @@
     <!-- LEFT SIDE -->
     <div class="left-side">
 
-    <div id="container">
-        <h2>Light</h2>
-        <p id="photoresistor"></p>
-        <h2>Motion</h2>
-        <p id="motion"></p>
-    </div>
-
     <div id="reading-time">
         <h3>Total time spent reading: 5 hours</h3>
     </div>
@@ -70,27 +63,32 @@
         <div id="books-grid" class="hor-scroll">
 
             <div class="book-card">
-            <img src="images/handmade.jpg">
+            <img src="images/handmade.jpg" alt="sample book image" class="bookImage">
             <p>The Handmaid's Tale</p>
-            <p>Progress Bar</p>
+            <!-- <p>Progress Bar</p> -->
+            <div class="progressBar"></div>
+            <div class="progressBarOverlay"></div>
             </div>
 
             <div class="book-card">
-                <img src="images/head.jpg">
+                <img src="images/head.jpg" alt="sample book image" class="bookImage">
                 <p>Get Out of Your Head</p>
-                <p>Progress Bar</p>
+               <div class="progressBar"></div>
+            <div class="progressBarOverlay"></div>
             </div>
             
             <div class="book-card">
-                <img src="images/sapiens.jpg">
+                <img src="images/sapiens.jpg" alt="sample book image" class="bookImage">
                 <p>Sapiens</p>
-                <p>Progress Bar</p>
+               <div class="progressBar"></div>
+                <div class="progressBarOverlay"></div>
             </div>
             
             <div class="book-card">
-                <img src="images/outsider.jpg">
+                <img src="images/outsider.jpg" alt="sample book image" class="bookImage">
                 <p>The Outsider</p>
-                <p>Progress Bar</p>
+                <div class="progressBar"></div>
+                <div class="progressBarOverlay"></div>
             </div>
 
             <!-- <div class="book-card">
@@ -123,7 +121,7 @@
                 <p>Progress Bar</p>
             </div> -->
         </div>
-        </div>
+    </div>
 
     </div>
     <!-- END OF THE LEFT SIDE -->
@@ -132,15 +130,19 @@
     <!-- RIGHT SIDE -->
     <div class="right-side">
     <div id="categories">
-        <p>Categories</p>
         <div id="tree-map">
-
-           <p>Place Demo Info about Barcoded Book here for now</p>
-
-           <p>Image</p>
-           <p>Year</p>
-           <p>Name</p>
-           <p>Description</p>
+           <div id="container">
+            <h2>Light</h2>
+            <p id="photoresistor"></p>
+            <h2>Motion</h2>
+            <p id="motion"></p>
+            <input type="text" id="barcodeInput">
+            <button id="barcodeButton">add book</button>
+            <div id="addedBook" class="book-card">
+                <h2 id="addedBookTitle"></h2>
+                <img src="" alt="" class="bookImage" id="addedBookImage">
+            </div>
+        </div>
             
         </div>
     </div>
