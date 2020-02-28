@@ -6,7 +6,7 @@ let light = document.querySelector("#photoresistor");
 let motion = document.querySelector("#motion");
 
 socket.on('photoresistor', function(photoresistor){
-	console.log(photoresistor);
+	// console.log(photoresistor);
 	light.innerHTML = photoresistor;
 });
 
@@ -24,15 +24,15 @@ socket.on('motionend', function(motionend){
 	motion.innerHTML = motionend;
 });
 
-let barcode = document.querySelector('#barcodeInput');//'9780140157376';
+let barcode = document.querySelector('#barcodeInput');//'9780691158648';//'9780140157376';
 let barcodeButton = document.querySelector('#barcodeButton');
 let isbn;
 
 // finds book by input barcode using barcodable API
-function findBookByBarcode() { //(barcode)
+function findBookByBarcode() { 
 	barcode = document.querySelector('#barcodeInput');
 	barcode = barcode.value;
-	console.log(barcode)
+	// console.log(barcode);
 
 	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=gzz6z37yi996us4087hmpr2d8pjrnn`;
 	axiosCall(barcode_api, (response) => {

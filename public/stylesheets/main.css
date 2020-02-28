@@ -61,9 +61,12 @@ p{
     
 }
 
-
 #recent-actions{
     padding: 2rem 0;
+}
+
+#recent-actions p:hover{
+  cursor: pointer;
 }
 
 #book-slider{
@@ -130,18 +133,15 @@ li:first-child {
     max-width: 200px;
 }
 
-
 .navbar-link{
-
     margin: 0 1rem;
     text-decoration: none;
     color: #fff;
 }
 
 .navbar{
-height: 10%;
-background-color: #1C1C1C;
-
+  height: 10%;
+  background-color: #1C1C1C;
 }
 
 .navbar a{
@@ -203,14 +203,29 @@ color: #F28921;
   margin-top: -10px;
 }
 
-.addedBookTitle {
+.book-card:hover{
+  cursor: pointer;
+}
+
+#seeAll{
+  cursor: pointer;
+}
+
+.addedBookTitle{
   text-align: left;
 }
 
+#addedBook{
+  margin-top: 30px;
+}
 
-@media screen and (min-width: 880px) {
+#addedbookimage{
+  margin-left: -30px;
+}
 
-.main {
+@media screen and (min-width: 880px){
+
+.main{
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
     grid-gap: 30px;

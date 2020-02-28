@@ -14,25 +14,24 @@ let five = require('johnny-five');
 let arduino = new five.Board();
 let photoresistor;
 let motion_sensor;
-let barcode_scanner;
 let pixel = require("node-pixel");
 let strip = null;
 
 arduino.on('ready', function(){
-    console.log("arduino is running! you run too.");
+    console.log("arduino is running!");
     photoresistor = new five.Sensor({
         pin: 'A2',
-        freq: 10000
+        freq: 1000
     });
 
     photoresistor.on('data', function(){
-        console.log(this.value)     //checks light every 10secs
-        io.sockets.emit('photoresistor', this.value);
+        // console.log(this.value);   
+        io.sockets.emit('photoresistor', this.value); // checks light every 10 seconds
     });
 
     motion_sensor = new five.Motion({
         pin: 7,
-        freq: 10000
+        freq: 1000
     });
 
     motion_sensor.on("calibrated", function() {
@@ -52,7 +51,7 @@ arduino.on('ready', function(){
 
    motion_sensor.on("data", function(data) {
     console.log(data);
-    // io.sockets.emit('motioncal');
+    // io.sockets.emit('motiondata');
   });
 
   strip = new pixel.Strip({
