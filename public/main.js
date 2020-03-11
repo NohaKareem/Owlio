@@ -52,8 +52,10 @@ function findBookByBarcode() {
 				console.log('google')
 				console.log(response.data)
 				addedBookImage.src = response.data.items[0].volumeInfo.imageLinks.thumbnail;
-				let pages = response.data.items[0].pageCount;
+				let pages = response.data.items[0].volumeInfo.pageCount;
+				let categories = response.data.items[0].volumeInfo.categories;
 				console.log(pages)
+				console.log(categories)
 			});
 		// console.log(response.data);
 	} );
