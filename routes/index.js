@@ -108,31 +108,35 @@ router.get('/sessions', (req, res, next) => {
   });
 });
 
-  // // POST new session
-  // router.post('/session/:book_id', (req, res, next) => {
+// POST new session
+router.post('/session', (req, res, next) => {
+  let start_time = req.body.start_time;
+  let end_time = req.body.end_time;
 
-  //   // add new session
-  //   var newSession = new Session(); 
-  //   newSession.start_time = req.body.start_time;
-  //   newSession.end_time = req.body.end_time;
+  // wrap start_time in a date object, to be saved as Date datatype in mongo
+  let start_date = new Date();
+  start_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
+  start_time = start_date;
 
-  //   newSession.save((err, data) => { 
-  //     handleErr(err);
-  //     console.log("Session saved to data collection", data);
-  //   });
+  // wrap end_time in a date object, to be saved as Date datatype in mongo
+  let end_date = new Date();
+  end_date.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+  end_time = end_date;
+  
+  // add new session
+  var newSession = new Session();
+  newSession.start_time = start_time;
+  newSession.end_time = end_time;
+  newSession.book_id = req.body.book_id;
+  newSession.comment = req.body.comment;
 
-  //   // add new session to book 
-  //   Book.findOneAndUpdate({
-  //     _id: req.params.book_id,
-  //     "session_data.session_id": req.params.session_id 
-  //   }, { "sessions_data.comment": req.body.comment });
-  //     newBook.save((err, data) => { 
-  //       handleErr(err);
-  //       console.log("Book session updated", data);
-  // });
+  newSession.save((err, data) => { 
+    handleErr(err);
+    console.log("Session saved to data collection", data);
+  });
 
-  //   res.redirect('/');
-  // });
+  res.redirect('/');
+});
 
 // API - GET most recent sessions
 router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
