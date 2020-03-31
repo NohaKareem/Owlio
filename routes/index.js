@@ -25,8 +25,17 @@ router.get('/sessions', (req, res, next) => {
   });
 });
 
+// API - GET most recent sessions
+router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
+  let recent_sessions_count = parseInt(req.params.recent_sessions_count);
+  Session.find((err, sessions) => {
+    handleErr(err);
+    res.json(sessions);
+  }).limit(recent_sessions_count).sort({ end_time: 'desc' });
+});
+
 // API - GET all light sessions
-router.get('/light_sessions', (req, res, next) => {
+router.get('/lightSessions', (req, res, next) => {
   Light.find((err, light_sessions) => {
     handleErr(err);
     res.json(light_sessions);
