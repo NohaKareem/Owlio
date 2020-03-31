@@ -1,3 +1,5 @@
+var dbAuth = require('./config.js'); // atlas db credentials
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,13 +10,18 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-// mongoose.connect('',{useNewUrlParser: true},function(err) {
-// 	if(err) {
-// 		console.log('error connecting', err);
-// 	} else {
-// 		console.log('connected!');
-// 	}
-// });
+mongoose.set('useFindAndModify', false);
+mongoose.set('useUnifiedTopology', true); 
+mongoose.set('useNewUrlParser', true); 
+
+mongoose.connect('mongodb+srv://' + dbAuth.DB_AUTH + '@cluster0-y9uwh.mongodb.net/' + dbAuth.DB_NAME + '?retryWrites=true&w=majority',
+{ useNewUrlParser: true }, function(err) {
+	if(err) {
+		console.log('error connecting', err);
+	} else {
+		console.log('connected!');
+	}
+});
 
 var app = express();
 
