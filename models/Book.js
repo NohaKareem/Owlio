@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var lightSchema = new mongoose.Schema({
+var bookSchema = new mongoose.Schema({
     sessions_data: {
             session_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Session' }, 
             comment: String
@@ -12,4 +12,4 @@ var lightSchema = new mongoose.Schema({
     favorite: Boolean
 }); 
 
-module.exports = mongoose.model('Light', lightSchema);
+module.exports = mongoose.model('Book', bookSchema);
