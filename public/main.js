@@ -73,4 +73,36 @@ function axiosCall(url, responseMethod) {
 	});
 }
 
+//twilio sms notifications method
+function sendMsg(){
+
+const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
+const authToken = '1063070c39efe9746b2992002c3c40ad';
+const client = require('twilio')(accountSid, authToken);
+cronJob = require('cron').CronJob;
+
+//That is a format specific to cron that let’s us define the time 
+//and frequency of when we want this job to fire. In this case, 
+//at 01 minutes 17 hours every day. Check time specifics via link below:
+//http://www.nncron.ru/help/EN/working/cron-format.htm
+
+//to: ' ' - put your cell phone number there
+var textJob = new cronJob( '19 12 * * *', function(){
+  client.messages.create( { to:'+12262247542', from:'12058435519', body:'Hello!👋 Hope you’re having a good day! Wanna read?' }, function( err, data ) {});
+},  null, true);
+
+
+//This code is for non-timed messages
+
+// client.messages
+//   .create({
+//      body: "Hey there!👋 It's time for couple pages, isn't it?",
+//      from: '+12058435519',
+//      to: '+12262247542' //paste your own phone number
+//    })
+//   .then(message => console.log(message.sid));
+
+
+}
+
 barcodeButton.addEventListener("click", findBookByBarcode);
