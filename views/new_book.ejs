@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/reset.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/book" method="POST">
+      <label for="review">review</label>
+      <input type="text" name="review" id="review" value="Awesome read!">
+      <br>
+      <label for="rating">rating</label>
+      <input type="number" name="rating" id="rating" value="4">
+      <br>
+      <label for="barcode">barcode</label>
+      <input type="text" name="barcode" id="barcode" value="9781455586691">
+      <br>
+      <label for="isbn">isbn</label>
+      <input type="text" name="isbn" id="isbn" value="1455586692">
+      <br>
+      <label for="favorite">favorite?</label>
+      <input type="checkbox" name="favorite" id="favorite" value="true">
+      <br>
+      <input type="submit" value="add">
+  </form>
+  </body>
+</html>

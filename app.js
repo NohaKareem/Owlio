@@ -1,3 +1,5 @@
+var dbAuth = require('./config.js'); // atlas db credentials
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,15 +8,24 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
+var bookRouter = require('./routes/book');
+var sessionRouter = require('./routes/session');
+var settingRouter = require('./routes/setting');
+var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 
-// mongoose.connect('',{useNewUrlParser: true},function(err) {
-// 	if(err) {
-// 		console.log('error connecting', err);
-// 	} else {
-// 		console.log('connected!');
-// 	}
-// });
+mongoose.set('useFindAndModify', false);
+mongoose.set('useUnifiedTopology', true); 
+mongoose.set('useNewUrlParser', true); 
+
+mongoose.connect('mongodb+srv://' + dbAuth.DB_AUTH + '@cluster0-y9uwh.mongodb.net/' + dbAuth.DB_NAME + '?retryWrites=true&w=majority',
+{ useNewUrlParser: true }, function(err) {
+	if(err) {
+		console.log('error connecting', err);
+	} else {
+		console.log('connected!');
+	}
+});
 
 var app = express();
 
@@ -36,6 +47,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/book', bookRouter);
+app.use('/session', sessionRouter);
+app.use('/setting', settingRouter);
+app.use('/api', apiRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -53,6 +68,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

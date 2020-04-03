@@ -28,6 +28,7 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 100%;
+  /* font-size: 30px; */
   max-width: 1920px;
   margin: 0;
 }
@@ -47,10 +48,12 @@ h2 {
 a {
   text-decoration: none;
   font-size: 1rem; 
+  /* font-size: 30px; */
 }
 
 p{
     font-weight: lighter;
+    font-size: 20px;
 }
 
 .main{
@@ -58,9 +61,12 @@ p{
     
 }
 
-
 #recent-actions{
     padding: 2rem 0;
+}
+
+#recent-actions p:hover{
+  cursor: pointer;
 }
 
 #book-slider{
@@ -118,23 +124,24 @@ li:first-child {
     padding: 0 10px;
   }
 
+.bookImage {
+  height: 300px;
+}
+
 
 #books-grid img{
     max-width: 200px;
 }
 
-
 .navbar-link{
-
     margin: 0 1rem;
     text-decoration: none;
     color: #fff;
 }
 
 .navbar{
-height: 10%;
-background-color: #1C1C1C;
-
+  height: 10%;
+  background-color: #1C1C1C;
 }
 
 .navbar a{
@@ -180,13 +187,45 @@ color: #F28921;
     height: 400px;
 }
 
+/* Demo UI */
+.progressBar{
+  width: 200px;
+  height: 10px;
+  border: 1px solid black;
+  /* background-color: #F28921; */
+}
 
+.progressBarOverlay{
+  width: 100px;
+  height: 10px;
+  border: 1px solid black;
+  background-color: #F28921;
+  margin-top: -10px;
+}
 
+.book-card:hover{
+  cursor: pointer;
+}
 
+#seeAll{
+  cursor: pointer;
+}
 
-@media screen and (min-width: 880px) {
+.addedBookTitle{
+  text-align: left;
+}
 
-.main {
+#addedBook{
+  margin-top: 30px;
+}
+
+#addedbookimage{
+  margin-left: -30px;
+}
+
+@media screen and (min-width: 880px){
+
+.main{
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
     grid-gap: 30px;
