@@ -11,10 +11,10 @@ router.get('/new', function(req, res, next) {
 router.post('/:id/comment', (req, res, next) => {
 Session.findOneAndUpdate({ _id: req.params.id },
     { "comment": req.body.comment });
-newBook.save((err, data) => { 
-    handleErr(err);
-    console.log("Session comment updated", data);
-});
+    newBook.save((err, data) => { 
+        handleErr(err);
+        console.log("Session comment updated", data);
+    });
 });
 
 // GET a session

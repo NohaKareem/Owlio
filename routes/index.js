@@ -1,8 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Book = require('../models/Book.js');
-var Setting = require('../models/Setting.js');
-var Session = require('../models/Session.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
