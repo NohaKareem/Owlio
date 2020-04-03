@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var bookRouter = require('./routes/book');
 var sessionRouter = require('./routes/session');
 var settingRouter = require('./routes/setting');
+var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 
 mongoose.set('useFindAndModify', false);
@@ -49,6 +50,7 @@ app.use('/', indexRouter);
 app.use('/book', bookRouter);
 app.use('/session', sessionRouter);
 app.use('/setting', settingRouter);
+app.use('/api', apiRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
