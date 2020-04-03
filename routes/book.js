@@ -9,6 +9,7 @@ router.post('/', (req, res, next) => {
     newBook.rating = req.body.rating;
     newBook.barcode = req.body.barcode;
     newBook.isbn = req.body.isbn;
+    console.log(req.body.favorite)
     newBook.favorite = req.body.favorite;
   
     newBook.save((err, data) => { 
@@ -33,6 +34,14 @@ router.get('/new', function(req, res, next) {
     });
   });
   
+  // GET book edit page~
+  router.get('/:id/edit', (req, res, next) => {
+    Book.find({  _id: req.params.id }, (err, book) => {
+      handleErr(err);
+      res.render('new_book', { title: 'Edit book', book: book });
+    });
+  });
+
   //Edit book - add review
   router.get('/:id/review', (req, res, next) => {
     Book.findOneAndUpdate({  _id: req.params.id }, 
