@@ -73,7 +73,7 @@ router.post('/session/:id/comment', (req, res, next) => {
 });
 
 // Sessions
-// API - GET all sessions
+// API - GET all sessions (including light data)
 router.get('/sessions', (req, res, next) => {
   Session.find((err, sessions) => {
     handleErr(err);
@@ -137,24 +137,6 @@ router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
     handleErr(err);
     res.json(sessions);
   }).limit(recent_sessions_count).sort({ end_time: 'desc' });
-});
-
-// Light
-// API - ~~~GET all light sessions
-router.get('/lightSessions', (req, res, next) => {
-  Light.find((err, light_sessions) => {
-    handleErr(err);
-    res.json(light_sessions);
-  });
-});
-
-// GET a ~~~light session
-// test light session id 5e50035ef41732322432ddc1
-router.get('/lightSession/:id', (req, res, next) => {
-  Light.find({  _id: req.params.id }, (err, session) => {
-    handleErr(err);
-    res.json(session);
-  });
 });
 
 // Add light setting
