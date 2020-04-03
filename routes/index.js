@@ -26,7 +26,7 @@ router.get('/session/new', function(req, res, next) {
 
 // GET settings input form~~
 router.get('/setting/new', function(req, res, next) {
-  res.render('setting', { title: 'Add light_settings' });
+  res.render('new_setting', { title: 'Add light_settings' });
 });
 
 // Books
@@ -139,7 +139,6 @@ router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
   }).limit(recent_sessions_count).sort({ end_time: 'desc' });
 });
 
-
 // settings 
 // API - GET all settings (including light data)
 router.get('/settings', (req, res, next) => {
@@ -158,15 +157,23 @@ router.get('/setting/:id', (req, res, next) => {
 });
 
 // Add light setting
-router.post('/settings', (req, res, next) => {
+router.post('/setting', (req, res, next) => {
+  let time = req.body.time;
+
+  // wrap time in a date object, to be saved as Date datatype in mongo
+  let dateWrapper = new Date();
+  dateWrapper.setHours(time.split(':')[0], time.split(':')[1]);
+  time = dateWrapper;
+
   var newSetting = new Setting(); 
   newSetting.color = req.body.color;
-  newSetting.time = req.body.time;
+  newSetting.time = time;
 
   newSetting.save((err, data) => { 
     handleErr(err);
     console.log("Setting saved to data collection", data);
   });
+  res.redirect('/');
 });
 
 function handleErr(err) {
