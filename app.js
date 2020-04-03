@@ -8,6 +8,9 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
+var bookRouter = require('./routes/book');
+var sessionRouter = require('./routes/session');
+var settingRouter = require('./routes/setting');
 var usersRouter = require('./routes/users');
 
 mongoose.set('useFindAndModify', false);
@@ -43,6 +46,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/book', bookRouter);
+app.use('/session', sessionRouter);
+app.use('/setting', settingRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -60,6 +66,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
