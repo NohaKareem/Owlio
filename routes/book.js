@@ -53,6 +53,14 @@ router.get('/new', function(req, res, next) {
      });
   });
 
+  //Update favorite
+  router.post('/:id/favorite', (req, res, next) => {
+    Book.findOneAndUpdate({  _id: req.params.id }, 
+      { 
+        "favorite": req.body.favorite
+      });
+  });
+  
   //Edit book - add review
   router.get('/:id/review', (req, res, next) => {
     Book.findOneAndUpdate({  _id: req.params.id }, 
