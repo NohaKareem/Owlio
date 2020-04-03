@@ -7,7 +7,6 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <%= book.review %>
     <form action="/book/<%= book._id %>/update" method="POST">
       <label for="review">review</label>
       <input type="text" name="review" id="review" value="<%= book.review %>">
