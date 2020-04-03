@@ -53,24 +53,6 @@ router.post('/book', (req, res, next) => {
   });
 });
 
-    // // GET book session
-    // // test book id 5e836fba28dc636184951a9a
-    // router.get('/book/:book_id/session/:session_id', (req, res, next) => {
-    //     Book.find({  _id: req.params.book_id,
-    //       "session_data.session_id": req.params.session_id }, (err, books) => {
-    //       handleErr(err);
-    //       res.json(books);
-    //     });
-    // });
-
-// // GET book session ~~~~
-// router.get('/book/:id', (req, res, next) => {
-//   Book.find({  _id: req.params.id }, (err, book) => {
-//     handleErr(err);
-//     res.json(book);
-//   });
-// });
-
 // GET a book
 // test book id 5e836fba28dc636184951a9a
 router.get('/book/:id', (req, res, next) => {
@@ -103,6 +85,15 @@ router.get('/sessions', (req, res, next) => {
 // test session id 5e8392191b597261009970dd
 router.get('/session/:id', (req, res, next) => {
   Session.find({  _id: req.params.id }, (err, session) => {
+    handleErr(err);
+    res.json(session);
+  });
+});
+
+// GET a book session
+// test book id 5e836fba28dc636184951a9a
+router.get('/session/book/:id', (req, res, next) => {
+  Session.find({  book_id: req.params.id }, (err, session) => {
     handleErr(err);
     res.json(session);
   });
