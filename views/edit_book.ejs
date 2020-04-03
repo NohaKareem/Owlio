@@ -7,6 +7,7 @@
   </head>
   <body>
     <h1><%= title %></h1>
+    <%= book.review %>
     <form action="/book/<%= book._id %>/update" method="POST">
       <label for="review">review</label>
       <input type="text" name="review" id="review" value="<%= book.review %>">
@@ -23,7 +24,7 @@
       <label for="favorite">favorite?</label>
       <input type="checkbox" name="favorite" id="favorite" value="<%= book.favorite %> ">
       <br>
-      <input type="submit" value="add">
+      <input type="submit" value="update">
   </form>
   </body>
 </html>

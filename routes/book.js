@@ -37,13 +37,13 @@ router.get('/new', function(req, res, next) {
   router.get('/:id/edit', (req, res, next) => {
     Book.find({  _id: req.params.id }, (err, book) => {
       handleErr(err);
-      res.render('new_book', { title: 'Edit book', book: book });
+      res.render('edit_book', { title: 'Edit book', book: book });
     });
   });
 
-  //Update book
+  // Update book
   router.post('/:id/update', (req, res, next) => {
-    Book.findOneAndUpdate({  _id: req.params.id }, 
+    let q = Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
         "rating": req.body.rating,
         "barcode": req.body.barcode,
@@ -51,9 +51,15 @@ router.get('/new', function(req, res, next) {
         "review": req.body.review,
         "favorite": req.body.favorite
      });
+    console.log('before update')
+    q.exec(function(err, mydata) {
+      console.log('updated');
+    });
+
+    res.redirect('/');
   });
 
-  //Update favorite
+  // Update favorite
   router.post('/:id/favorite', (req, res, next) => {
     Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
@@ -61,7 +67,7 @@ router.get('/new', function(req, res, next) {
       });
   });
   
-  //Edit book - add review
+  // Edit book - add review
   router.get('/:id/review', (req, res, next) => {
     Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
