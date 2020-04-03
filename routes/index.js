@@ -139,6 +139,24 @@ router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
   }).limit(recent_sessions_count).sort({ end_time: 'desc' });
 });
 
+
+// settings 
+// API - GET all settings (including light data)
+router.get('/settings', (req, res, next) => {
+  Setting.find((err, settings) => {
+    handleErr(err);
+    res.json(settings);
+  });
+});
+
+// GET a setting
+router.get('/setting/:id', (req, res, next) => {
+  Setting.find({  _id: req.params.id }, (err, setting) => {
+    handleErr(err);
+    res.json(setting);
+  });
+});
+
 // Add light setting
 router.post('/settings', (req, res, next) => {
   var newSetting = new Setting(); 
