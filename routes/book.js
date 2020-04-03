@@ -4,21 +4,21 @@ var Book = require('../models/Book.js');
 
 // POST new book
 router.post('/', (req, res, next) => {
-    var newBook = new Book(); 
-    newBook.review = req.body.review;
-    newBook.rating = req.body.rating;
-    newBook.barcode = req.body.barcode;
-    newBook.isbn = req.body.isbn;
-    newBook.favorite = req.body.favorite;
-  
-    newBook.save((err, data) => { 
-      handleErr(err);
-      console.log("Book saved to data collection", data);
-    });
+  var newBook = new Book(); 
+  newBook.review = req.body.review;
+  newBook.rating = req.body.rating;
+  newBook.barcode = req.body.barcode;
+  newBook.isbn = req.body.isbn;
+  newBook.favorite = req.body.favorite;
 
-    res.redirect('/');
+  newBook.save((err, data) => { 
+    handleErr(err);
+    console.log("Book saved to data collection", data);
   });
-  
+
+  res.redirect('/');
+});
+
 // GET book input form
 router.get('/new', function(req, res, next) {
     res.render('new_book', { title: 'Add book' });
