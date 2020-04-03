@@ -9,7 +9,6 @@ router.post('/', (req, res, next) => {
     newBook.rating = req.body.rating;
     newBook.barcode = req.body.barcode;
     newBook.isbn = req.body.isbn;
-    console.log(req.body.favorite)
     newBook.favorite = req.body.favorite;
   
     newBook.save((err, data) => { 
@@ -34,7 +33,7 @@ router.get('/new', function(req, res, next) {
     });
   });
   
-  // GET book edit page~
+  // GET book edit page
   router.get('/:id/edit', (req, res, next) => {
     Book.find({  _id: req.params.id }, (err, book) => {
       handleErr(err);
@@ -42,14 +41,29 @@ router.get('/new', function(req, res, next) {
     });
   });
 
+  //Update book
+  router.post('/:id/update', (req, res, next) => {
+    Book.findOneAndUpdate({  _id: req.params.id }, 
+      { 
+        "rating": req.body.rating,
+        "barcode": req.body.barcode,
+        "isbn": req.body.isbn,
+        "review": req.body.review,
+        "favorite": req.body.favorite
+     });
+  });
+
   //Edit book - add review
   router.get('/:id/review', (req, res, next) => {
     Book.findOneAndUpdate({  _id: req.params.id }, 
-      { "review": req.body.review });
-      newBook.save((err, book) => {
-        handleErr(err);
-        res.json(book);
-    });
+      { 
+        "review": req.body.review
+     });
+    //   newBook.save((err, book) => {
+    //     handleErr(err);
+    //     res.json(book);
+    // });
+    res.redirect('/');
   });
   
 function handleErr(err) {
