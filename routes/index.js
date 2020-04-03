@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Book = require('../models/Book.js');
-var Light = require('../models/Light.js');
+var Setting = require('../models/Setting.js');
 var Session = require('../models/Session.js');
 
 /* GET home page. */
@@ -19,19 +19,14 @@ router.get('/book/new', function(req, res, next) {
   res.render('new_book', { title: 'Add book' });
 });
 
-// GET book input form
+// GET session input form
 router.get('/session/new', function(req, res, next) {
   res.render('new_session', { title: 'Add session' });
 });
 
-// GET book input form
-router.get('/light_session/new', function(req, res, next) {
-  res.render('new_light_session', { title: 'Add light session' });
-});
-
-// GET book input form
-router.get('/light_settings/new', function(req, res, next) {
-  res.render('new_light_settings', { title: 'Add light_settings' });
+// GET settings input form~~
+router.get('/setting/new', function(req, res, next) {
+  res.render('setting', { title: 'Add light_settings' });
 });
 
 // Books
@@ -51,8 +46,6 @@ router.post('/book', (req, res, next) => {
   newBook.barcode = req.body.barcode;
   newBook.isbn = req.body.isbn;
   newBook.favorite = req.body.favorite;
-  // newBook.sessions_data.session_id = req.body.session_id; //req.params.session_id;//book id
-  // newBook.sessions_data.comment = req.body.comment;
 
   newBook.save((err, data) => { 
     handleErr(err);
@@ -60,42 +53,40 @@ router.post('/book', (req, res, next) => {
   });
 });
 
-// GET book session
-// test book id 5e836fba28dc636184951a9a
-router.get('/book/:book_id/session/:session_id', (req, res, next) => {
-    Book.find({  _id: req.params.book_id,
-      "session_data.session_id": req.params.session_id }, (err, books) => {
-      handleErr(err);
-      res.json(books);
-    });
-});
-
-    // // POST new book session //~ easier if in session table
-    // router.post('/book/:book_id/session', (req, res, next) => {
-    //   var newBookSession = new Book(); 
-    //   newBookSession.review = req.body.review;
-    //   newBookSession.rating = req.body.rating;
-    //   newBookSession.barcode = req.body.barcode;
-    //   newBookSession.isbn = req.body.isbn;
-    //   newBookSession.favorite = req.body.favorite;
-    //   // newBookSession.sessions_data.session_id = req.body.session_id; //req.params.session_id;//BookSession id
-    //   // newBookSession.sessions_data.comment = req.body.comment;
-
-    //   newBookSession.save((err, data) => { 
-    //     handleErr(err);
-    //     console.log("BookSession saved to data collection", data);
-    //   });
+    // // GET book session
+    // // test book id 5e836fba28dc636184951a9a
+    // router.get('/book/:book_id/session/:session_id', (req, res, next) => {
+    //     Book.find({  _id: req.params.book_id,
+    //       "session_data.session_id": req.params.session_id }, (err, books) => {
+    //       handleErr(err);
+    //       res.json(books);
+    //     });
     // });
 
-// ~POST new book session comment//~ (with optional comment)
-router.post('/book/:book_id/session/:session_id', (req, res, next) => {
-  Book.findOneAndUpdate({
-     _id: req.params.book_id,
-      "session_data.session_id": req.params.session_id 
-    }, { "sessions_data.comment": req.body.comment });
+// // GET book session ~~~~
+// router.get('/book/:id', (req, res, next) => {
+//   Book.find({  _id: req.params.id }, (err, book) => {
+//     handleErr(err);
+//     res.json(book);
+//   });
+// });
+
+// GET a book
+// test book id 5e836fba28dc636184951a9a
+router.get('/book/:id', (req, res, next) => {
+  Book.find({  _id: req.params.id }, (err, book) => {
+    handleErr(err);
+    res.json(book);
+  });
+});
+
+// Update book session comment
+router.post('/session/:id/comment', (req, res, next) => {
+  Session.findOneAndUpdate({ _id: req.params.id },
+     { "comment": req.body.comment });
   newBook.save((err, data) => { 
     handleErr(err);
-    console.log("Book session updated", data);
+    console.log("Session comment updated", data);
   });
 });
 
@@ -105,6 +96,15 @@ router.get('/sessions', (req, res, next) => {
   Session.find((err, sessions) => {
     handleErr(err);
     res.json(sessions);
+  });
+});
+
+// GET a session
+// test session id 5e8392191b597261009970dd
+router.get('/session/:id', (req, res, next) => {
+  Session.find({  _id: req.params.id }, (err, session) => {
+    handleErr(err);
+    res.json(session);
   });
 });
 
@@ -129,6 +129,7 @@ router.post('/session', (req, res, next) => {
   newSession.end_time = end_time;
   newSession.book_id = req.body.book_id;
   newSession.comment = req.body.comment;
+  newSession.light_lumens = req.body.light_lumens;
 
   newSession.save((err, data) => { 
     handleErr(err);
@@ -147,11 +148,33 @@ router.get('/sessions/recent/:recent_sessions_count', (req, res, next) => {
   }).limit(recent_sessions_count).sort({ end_time: 'desc' });
 });
 
-// API - GET all light sessions
+// Light
+// API - ~~~GET all light sessions
 router.get('/lightSessions', (req, res, next) => {
   Light.find((err, light_sessions) => {
     handleErr(err);
     res.json(light_sessions);
+  });
+});
+
+// GET a ~~~light session
+// test light session id 5e50035ef41732322432ddc1
+router.get('/lightSession/:id', (req, res, next) => {
+  Light.find({  _id: req.params.id }, (err, session) => {
+    handleErr(err);
+    res.json(session);
+  });
+});
+
+// Add light setting
+router.post('/settings', (req, res, next) => {
+  var newSetting = new Setting(); 
+  newSetting.color = req.body.color;
+  newSetting.time = req.body.time;
+
+  newSetting.save((err, data) => { 
+    handleErr(err);
+    console.log("Setting saved to data collection", data);
   });
 });
 
