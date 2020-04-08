@@ -24,6 +24,7 @@
     "mongoose": "^5.8.9",
     "morgan": "~1.9.1",
     "node-pixel": "^0.10.2",
+    "nodebots-interchange": "^2.0.1",
     "socket.io": "^2.3.0",
     "twilio": "^3.41.1"
   },

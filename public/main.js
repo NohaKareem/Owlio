@@ -5,25 +5,21 @@ let socket = io.connect("http://localhost:3000");
 let light = document.querySelector("#photoresistor");
 let motion = document.querySelector("#motion");
 
+//photoresistor 
 socket.on('photoresistor', function(photoresistor){
 	// console.log(photoresistor);
 	light.innerHTML = photoresistor;
 });
 
-socket.on('motioncal', function(motioncal){
-	console.log("motion calibrated");
-	motion.innerHTML = motioncal;
-});
-
+//motion
 socket.on('motionstart', function(motionstart){
-	console.log("motion started");
 	motion.innerHTML = motionstart;
 });
 socket.on('motionend', function(motionend){
-	console.log("motion ended");
 	motion.innerHTML = motionend;
 });
 
+//barcode
 let barcode = document.querySelector('#barcodeInput');//'9780691158648';//'9780140157376';
 let barcodeButton = document.querySelector('#barcodeButton');
 

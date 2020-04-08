@@ -13,61 +13,62 @@ http.listen(3000, function(){
 let five = require('johnny-five');
 let arduino = new five.Board();
 let photoresistor;
-let motion_sensor;
+let proximity;
 let pixel = require("node-pixel");
 let strip = null;
 
 arduino.on('ready', function(){
     console.log("arduino is running!");
+
+//photoresistor
     photoresistor = new five.Sensor({
         pin: 'A2',
         freq: 1000
     });
 
     photoresistor.on('data', function(){
-        // console.log(this.value);   
+        console.log(this.value);   
         io.sockets.emit('photoresistor', this.value); // checks light every 10 seconds
     });
 
-    motion_sensor = new five.Motion({
+//motion
+    proximity = new five.Proximity({
+        controller: "HCSR04",
         pin: 7,
         freq: 1000
     });
 
-    motion_sensor.on("calibrated", function() {
-        console.log("calibrated");
-        io.sockets.emit('calibrated');
+    // proximity.on("data", function() {
+        // console.log(this.cm + "cm", this.in + "in");
+    // });
+    
+    proximity.on("change", function() {
+        if (proximity.cm < 35) {
+            console.log("Someone's there!");
+            io.sockets.emit('motionstart', "Someone's there!");
+        } 
+        else {
+            console.log("Oops! no one's there.");
+            io.sockets.emit('motionend', "Oops! no one's there.");
+        }
     });
 
-    motion_sensor.on("motionstart", function() {
-        console.log("motionstart");
-        io.sockets.emit('motionstart', "Someone's there!");
-    });
+//neopixel lights
+// strip = new pixel.Strip({
+//     data: 6,
+//     length: 12,
+//     board: this,
+//     controller: "FIRMATA",
+// });
 
-   motion_sensor.on("motionend", function() {
-        io.sockets.emit('motionend', "Oops! no one's there.");
-        console.log("motionend");
-   });
+// strip.on("ready", function() {
+//     console.log("light up")
 
-   motion_sensor.on("data", function(data) {
-    console.log(data);
-    // io.sockets.emit('motiondata');
-  });
-
-  strip = new pixel.Strip({
-    board: this,
-    // controller: "FIRMATA",
-    controller: "I2CBACKPACK",
-    // pin:4,
-    // length: 16,
-    strips: [{ pin: 4, length: 16 }],
-    gamma: 2.8
-  });
-
-  strip.on("ready", function(){
-      strip.color("#ff0000");
-      strip.show();
-      console.log("light connected");
-  });
+//     for (i = 0; i < strip.stripLength(); i++) {
+//         console.log(i);
+//         strip.pixel(i).color("teal");
+//     }
+//     strip.show();
+// });
     
 }); 
