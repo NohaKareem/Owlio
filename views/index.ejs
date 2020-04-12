@@ -50,6 +50,9 @@
       
           <div id="recent-actions">
               <h3>Recent Actions:</h3>
+              <% sessions.forEach(session=>{ %>
+                 <p> <%= session.end_time %> </p>
+              <% }) %>
               <p>Thurs. 27 Feb: read The Handmid's Tale</p>
               <p>Wed. 26 Feb: read Get Out of Your Head</p>
           </div>
