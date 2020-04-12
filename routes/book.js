@@ -45,7 +45,7 @@ router.get('/new', function(req, res, next) {
   
   // GET book edit page
   router.get('/:id/edit', (req, res, next) => {
-    Book.find({  _id: req.params.id }, (err, book) => {
+    Book.findOne({  _id: req.params.id }, (err, book) => {
       handleErr(err);
       res.render('edit_book', { title: 'Edit book', book: book });
     });
@@ -61,9 +61,9 @@ router.get('/new', function(req, res, next) {
         "review": req.body.review,
         "favorite": req.body.favorite
      });
-    console.log('before update')
+
     q.exec(function(err, mydata) {
-      console.log('updated');
+      console.log('updated book');
     });
 
     res.redirect('/');
@@ -71,24 +71,43 @@ router.get('/new', function(req, res, next) {
 
   // Update favorite
   router.post('/:id/favorite', (req, res, next) => {
-    Book.findOneAndUpdate({  _id: req.params.id }, 
+    var q = Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
         "favorite": req.body.favorite
       });
-  });
-  
-  // Edit book - add review
-  router.get('/:id/review', (req, res, next) => {
-    Book.findOneAndUpdate({  _id: req.params.id }, 
-      { 
-        "review": req.body.review
-     });
-    //   newBook.save((err, book) => {
-    //     handleErr(err);
-    //     res.json(book);
-    // });
+    
+    q.exec(function(err, mydata) {
+        console.log('updated favorite');
+      });
     res.redirect('/');
   });
+
+  // Add review
+  router.post('/:id/review', (req, res, next) => {
+    var q = Book.findOneAndUpdate({  _id: req.params.id }, 
+      { 
+        "review": req.body.review
+      });
+      
+    q.exec(function(err, mydata) {
+        console.log('updated review');
+      });
+      
+    res.redirect('/');
+  });
+  
+  // // Edit book - add review
+  // router.get('/:id/review', (req, res, next) => {
+  //   Book.findOneAndUpdate({  _id: req.params.id }, 
+  //     { 
+  //       "review": req.body.review
+  //    });
+  //   //   newBook.save((err, book) => {
+  //   //     handleErr(err);
+  //   //     res.json(book);
+  //   // });
+  //   res.redirect('/');
+  // });
   
 function handleErr(err) {
     if(err) return next(err);
