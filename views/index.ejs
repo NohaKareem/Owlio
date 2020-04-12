@@ -51,7 +51,8 @@
           <div id="recent-actions">
               <h3>Recent Actions:</h3>
               <% sessions.forEach(session=>{ %>
-                 <p> <%= session.end_time.toTimeString() %> </p>
+                <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
+                 <p> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> </p>
               <% }) %>
               <p>Thurs. 27 Feb: read The Handmid's Tale</p>
               <p>Wed. 26 Feb: read Get Out of Your Head</p>

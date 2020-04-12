@@ -54,7 +54,7 @@ function toggleReadingSession() {
 	axiosGET(`${SERVER}/book/barcode/${readingBarcode}`, (response) => {
 		let book = response.data;
 		console.log(book)
-
+		
 		// add book if doesn't exist
 		if (!book) {
 			let newBook = {
