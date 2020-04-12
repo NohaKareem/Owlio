@@ -1,37 +1,23 @@
 //Javascript Document
 console.log("Linked up");
 
-let socket = io.connect("http://localhost:3000");
-let light = document.querySelector("#photoresistor");
-let motion = document.querySelector("#motion");
-
-//photoresistor 
-socket.on('photoresistor', function(photoresistor){
-	// console.log(photoresistor);
-	light.innerHTML = photoresistor;
-});
-
-//motion
-socket.on('motionstart', function(motionstart){
-	motion.innerHTML = motionstart;
-});
-socket.on('motionend', function(motionend){
-	motion.innerHTML = motionend;
-});
-
 //barcode
 let barcode = document.querySelector('#barcodeInput');//'9780691158648';//'9780140157376';
 let barcodeButton = document.querySelector('#barcodeButton');
+let readingButton = document.querySelector('#readingButton');
+let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
+let reading = false;
+const SERVER = 'http://localhost:3000';
 
 // finds book by input barcode using barcodable API
-function findBookByBarcode() { 
+function findBookByBarcode() {
 	barcode = document.querySelector('#barcodeInput');
 	barcode = barcode.value;//9781455586691
 	// console.log(barcode);
 
 	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
 	// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
-	axiosCall(barcode_api, (response) => {
+	axiosGET(barcode_api, (response) => {
 			console.log(response.data);
 			let addedBookTitle = document.querySelector('#addedBookTitle');
 			let addedBookImage = document.querySelector('#addedBookImage');
@@ -44,7 +30,7 @@ function findBookByBarcode() {
 			addedBookImage.alt = bookTitle + " image"; 
 			
 			// retrieve book image and page numbers from google books api 
-			axiosCall(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
+			axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
 				console.log('google')
 				console.log(response.data)
 				addedBookImage.src = response.data.items[0].volumeInfo.imageLinks.thumbnail;
@@ -57,10 +43,52 @@ function findBookByBarcode() {
 	} );
 }
 
+function toggleReadingSession() {
+	// toggle start/stop reading button display
+	readingButton.innerHTML = (!reading ? "stop" : "start") + " reading";
+	reading = !reading;
+
+	let readingBarcode = readingBarcodeInput.value;
+
+	// get book id, if exists
+	axiosGET(`${SERVER}/book/barcode/${readingBarcode}`, (response) => {
+		let book = response.data;
+		console.log(book)
+
+		// add book if doesn't exist
+		if (!book) {
+			let newBook = {
+				barcode: readingBarcode//, 
+				// isbn: isbn
+			};
+
+			axiosPOST(`${SERVER}/book`, newBook, (response) => {
+				// console.log(response.data)
+
+				// update book
+				book = response.data;
+			});
+		}
+	});
+}
+
+readingButton.addEventListener("click", toggleReadingSession, false);
+
 /* helper methods */ 
-// generates axios call using url and handles response using responseMethod
-function axiosCall(url, responseMethod) {
+// generates axios GET call using url and handles response using responseMethod
+function axiosGET(url, responseMethod) {
 	axios.get(url)
+	.then(function(response) {
+		responseMethod(response); 
+	})
+	.catch(function(error) {
+		console.error(error);
+	});
+}
+
+// generates axios POST call using url and handles response using responseMethod
+function axiosPOST(url, data, responseMethod) {
+	axios.post(url, data)
 	.then(function(response) {
 		responseMethod(response); 
 	})
@@ -87,7 +115,6 @@ var textJob = new cronJob( '19 12 * * *', function(){
   client.messages.create( { to:'+12262247542', from:'12058435519', body:'Hello!👋 Hope you’re having a good day! Wanna read?' }, function( err, data ) {});
 },  null, true);
 
-
 //This code is for non-timed messages
 
 // client.messages
@@ -98,7 +125,25 @@ var textJob = new cronJob( '19 12 * * *', function(){
 //    })
 //   .then(message => console.log(message.sid));
 
-
 }
 
 barcodeButton.addEventListener("click", findBookByBarcode);
+
+		// // sensors
+		// let socket = io.connect("http://localhost:3000");
+		// let light = document.querySelector("#photoresistor");
+		// let motion = document.querySelector("#motion");
+
+		// //photoresistor 
+		// socket.on('photoresistor', function(photoresistor){
+		// 	// console.log(photoresistor);
+		// 	light.innerHTML = photoresistor;
+		// });
+
+		// //motion
+		// socket.on('motionstart', function(motionstart){
+		// 	motion.innerHTML = motionstart;
+		// });
+		// socket.on('motionend', function(motionend){
+		// 	motion.innerHTML = motionend;
+		// });

@@ -11,12 +11,13 @@ router.post('/', (req, res, next) => {
   newBook.isbn = req.body.isbn;
   newBook.favorite = req.body.favorite;
 
-  newBook.save((err, data) => { 
+  newBook.save((err, book) => { 
     handleErr(err);
-    console.log("Book saved to data collection", data);
+    console.log("Book saved to data collection", book);
+    res.json(book);
   });
 
-  res.redirect('/');
+  // res.redirect('/');
 });
 
 // GET book input form
@@ -66,7 +67,8 @@ router.get('/new', function(req, res, next) {
       console.log('updated book');
     });
 
-    res.redirect('/');
+    // res.redirect('/');
+    res.json(book);
   });
 
   // Update favorite

@@ -14,7 +14,7 @@
     <!------ Include the above in your HEAD tag ---------->
     
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-     </head>
+  </head>
   <body class="home">
     <div class="container-fluid">
       <div class="row">
@@ -51,12 +51,16 @@
           <div id="recent-actions">
               <h3>Recent Actions:</h3>
               <% sessions.forEach(session=>{ %>
-                 <p> <%= session.end_time %> </p>
+                 <p> <%= session.end_time.toTimeString() %> </p>
               <% }) %>
               <p>Thurs. 27 Feb: read The Handmid's Tale</p>
               <p>Wed. 26 Feb: read Get Out of Your Head</p>
           </div>
-      
+
+          <h2>Start Reading!</h2>
+          <input type="text" id="readingBarcodeInput" value="9781455586691">
+          <button id="readingButton">start reading</button>
+       
           <div id="book-slider">
               <p id="seeAll">See All</p>
               <div id="books-grid" class="hor-scroll">

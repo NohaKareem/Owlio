@@ -3,10 +3,13 @@ var mongoose = require('mongoose');
 var bookSchema = new mongoose.Schema({
     review: String, 
     rating: Number, 
-    barcode: String, 
+    barcode: {
+        type: String,
+        required:[true, 'A book must have a barcode'],
+    }, 
     isbn: String, 
 
-    title: String, 
+    title: String,
     author: String, 
     genre: String, 
     categories: [String], 
