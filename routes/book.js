@@ -32,6 +32,16 @@ router.get('/new', function(req, res, next) {
       res.json(book);
     });
   });
+
+  // GET book if exists (check by barcode)
+  router.get('/barcode/:barcode', function(req, res, next) {
+    Book.findOne({ barcode: req.params.barcode }, (err, book) => {
+      handleErr(err);
+      if (book)
+          res.json(book);
+      else res.json(false);
+    });
+  });
   
   // GET book edit page
   router.get('/:id/edit', (req, res, next) => {
