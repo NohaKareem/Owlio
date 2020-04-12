@@ -22,20 +22,20 @@
       <input type="text" name="isbn" id="isbn" value="<%= book.isbn %>">
       <br>
       <label for="favorite">favorite?</label>
-      <input type="checkbox" name="favorite" id="favorite" value="<%= book.favorite %> ">
+      <input type="checkbox" name="favorite" id="favorite" <%= book.favorite ? "checked" : "" %>>
       <br>
       <input type="submit" value="update">
   </form>
   <h2>Edit Review</h2>
   <form action="/book/<%= book._id %>/review" method="POST">
     <label for="review">review</label>
-    <input type="text" name="review" id="review" value="<%= book.review %>">
+    <input type="text" name="review" value="<%= book.review %>">
     <input type="submit" value="update">
   </form>
   <h2>Edit Favorite</h2>
   <form action="/book/<%= book._id %>/favorite" method="POST">
     <label for="favorite">favorite?</label>
-    <input type="checkbox" name="favorite" id="favorite" value="<%= book.favorite %> ">
+    <input type="checkbox" name="favorite"  <%= book.favorite ? "checked" : "" %>>
     <input type="submit" value="update">
   </form>
   </body>

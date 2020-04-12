@@ -59,7 +59,7 @@ router.get('/new', function(req, res, next) {
         "barcode": req.body.barcode,
         "isbn": req.body.isbn,
         "review": req.body.review,
-        "favorite": req.body.favorite
+        "favorite": req.body.favorite === "on" ? true : false
      });
 
     q.exec(function(err, mydata) {
@@ -73,9 +73,8 @@ router.get('/new', function(req, res, next) {
   router.post('/:id/favorite', (req, res, next) => {
     var q = Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
-        "favorite": req.body.favorite
+        "favorite": req.body.favorite === "on" ? true : false
       });
-    
     q.exec(function(err, mydata) {
         console.log('updated favorite');
       });
@@ -92,7 +91,7 @@ router.get('/new', function(req, res, next) {
     q.exec(function(err, mydata) {
         console.log('updated review');
       });
-      
+
     res.redirect('/');
   });
   
