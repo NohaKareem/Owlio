@@ -11,12 +11,13 @@ router.post('/', (req, res, next) => {
   newBook.isbn = req.body.isbn;
   newBook.favorite = req.body.favorite;
 
-  newBook.save((err, data) => { 
+  newBook.save((err, book) => { 
     handleErr(err);
-    console.log("Book saved to data collection", data);
+    console.log("Book saved to data collection", book);
+    res.json(book);
   });
 
-  res.redirect('/');
+  // res.redirect('/');
 });
 
 // GET book input form
@@ -32,10 +33,20 @@ router.get('/new', function(req, res, next) {
       res.json(book);
     });
   });
+
+  // GET book if exists (check by barcode)
+  router.get('/barcode/:barcode', function(req, res, next) {
+    Book.findOne({ barcode: req.params.barcode }, (err, book) => {
+      handleErr(err);
+      if (book)
+          res.json(book);
+      else res.json(false);
+    });
+  });
   
   // GET book edit page
   router.get('/:id/edit', (req, res, next) => {
-    Book.find({  _id: req.params.id }, (err, book) => {
+    Book.findOne({  _id: req.params.id }, (err, book) => {
       handleErr(err);
       res.render('edit_book', { title: 'Edit book', book: book });
     });
@@ -49,36 +60,55 @@ router.get('/new', function(req, res, next) {
         "barcode": req.body.barcode,
         "isbn": req.body.isbn,
         "review": req.body.review,
-        "favorite": req.body.favorite
+        "favorite": req.body.favorite === "on" ? true : false
      });
-    console.log('before update')
+
     q.exec(function(err, mydata) {
-      console.log('updated');
+      console.log('updated book');
     });
 
-    res.redirect('/');
+    // res.redirect('/');
+    res.json(book);
   });
 
   // Update favorite
   router.post('/:id/favorite', (req, res, next) => {
-    Book.findOneAndUpdate({  _id: req.params.id }, 
+    var q = Book.findOneAndUpdate({  _id: req.params.id }, 
       { 
-        "favorite": req.body.favorite
+        "favorite": req.body.favorite === "on" ? true : false
       });
-  });
-  
-  // Edit book - add review
-  router.get('/:id/review', (req, res, next) => {
-    Book.findOneAndUpdate({  _id: req.params.id }, 
-      { 
-        "review": req.body.review
-     });
-    //   newBook.save((err, book) => {
-    //     handleErr(err);
-    //     res.json(book);
-    // });
+    q.exec(function(err, mydata) {
+        console.log('updated favorite');
+      });
     res.redirect('/');
   });
+
+  // Add review
+  router.post('/:id/review', (req, res, next) => {
+    var q = Book.findOneAndUpdate({  _id: req.params.id }, 
+      { 
+        "review": req.body.review
+      });
+      
+    q.exec(function(err, mydata) {
+        console.log('updated review');
+      });
+
+    res.redirect('/');
+  });
+  
+  // // Edit book - add review
+  // router.get('/:id/review', (req, res, next) => {
+  //   Book.findOneAndUpdate({  _id: req.params.id }, 
+  //     { 
+  //       "review": req.body.review
+  //    });
+  //   //   newBook.save((err, book) => {
+  //   //     handleErr(err);
+  //   //     res.json(book);
+  //   // });
+  //   res.redirect('/');
+  // });
   
 function handleErr(err) {
     if(err) return next(err);

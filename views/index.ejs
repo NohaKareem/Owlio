@@ -1,12 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/reset.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="stylesheets/reset.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/vue@2.3.4"></script>
+    
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css">
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <body class="home">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="navbar">
+        <nav class="navbar fixed-bottom justify-content-center">
+          <a class="navbar-link" href="#">Home</a>
+          <a class="navbar-link" href="#">Books</a>
+          <a class="navbar-link" href="#">Light</a>
+          <a class="navbar-link" href="#">Settings</a>
+        </nav>
+      </div>
+      
+      <div class="sidebar">
+      <ul class="nav-sidebar">
+          <li><a href="#"><img src="images/logo-orange.png"></a></li>
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Books</a></li>
+          <li><a href="#">Light</a></li>
+          <li><a href="#">Settings</a></li>
+      </ul>
+      </div>
+      
+      
+      <div class="main col-sm-12">
+          <h1 class="hidden page-header">Book Info</h1>
+      
+          <!-- LEFT SIDE -->
+          <div class="left-side">
+      
+          <div id="reading-time">
+              <h3>Total time spent reading: 5 hours</h3>
+          </div>
+      
+          <div id="recent-actions">
+              <h3>Recent Actions:</h3>
+              <% sessions.forEach(session=>{ %>
+                <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
+                 <p> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> </p>
+              <% }) %>
+              <p>Thurs. 27 Feb: read The Handmid's Tale</p>
+              <p>Wed. 26 Feb: read Get Out of Your Head</p>
+          </div>
+
+          <h2>Start Reading!</h2>
+          <input type="text" id="readingBarcodeInput" value="9781455586691">
+          <button id="readingButton">start reading</button>
+       
+          <div id="book-slider">
+              <p id="seeAll">See All</p>
+              <div id="books-grid" class="hor-scroll">
+      
+                  <div class="book-card">
+                  <img src="images/handmade.jpg" alt="sample book image" class="bookImage">
+                  <p>The Handmaid's Tale</p>
+                  <div class="progressBar"></div>
+                  <div class="progressBarOverlay"></div>
+                  </div>
+      
+                  <div class="book-card">
+                      <img src="images/head.jpg" alt="sample book image" class="bookImage">
+                      <p>Get Out of Your Head</p>
+                    <div class="progressBar"></div>
+                  <div class="progressBarOverlay"></div>
+                  </div>
+                  
+                  <div class="book-card">
+                      <img src="images/sapiens.jpg" alt="sample book image" class="bookImage">
+                      <p>Sapiens</p>
+                    <div class="progressBar"></div>
+                      <div class="progressBarOverlay"></div>
+                  </div>
+                  
+                  <div class="book-card">
+                      <img src="images/outsider.jpg" alt="sample book image" class="bookImage">
+                      <p>The Outsider</p>
+                      <div class="progressBar"></div>
+                      <div class="progressBarOverlay"></div>
+                  </div>
+              </div>
+          </div>
+      
+          </div>
+          <!-- END OF THE LEFT SIDE -->
+      
+      
+          <!-- RIGHT SIDE -->
+          <div class="right-side">
+          <div id="categories">
+              <div id="tree-map">
+                <div id="container">
+                  <h2>Light</h2>
+                  <p id="photoresistor"></p>
+                  <h2>Motion</h2>
+                  <p id="motion"></p>
+                  <input type="text" id="barcodeInput">
+                  <button id="barcodeButton">add book</button>
+                  <div id="addedBook">
+                      <h2 id="addedBookTitle"></h2>
+                      <img src="" alt="" class="bookImage" id="addedBookImage">
+                  </div>
+              </div>
+                  
+              </div>
+          </div>
+          </div>
+      
+      </div>
+      
+      </div>
+    </div>
+      
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="main.js"></script>	
   </body>
 </html>
