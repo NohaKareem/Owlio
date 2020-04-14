@@ -146,21 +146,30 @@ var textJob = new cronJob( '19 12 * * *', function(){
 
 barcodeButton.addEventListener("click", findBookByBarcode);
 
-		// // sensors
-		// let socket = io.connect("http://localhost:3000");
-		// let light = document.querySelector("#photoresistor");
-		// let motion = document.querySelector("#motion");
+// sensors
+	let socket = io.connect("http://localhost:3000");
+	let lightsensor = document.querySelector("#photoresistor");
+	let motion = document.querySelector("#motion");
+	let lights = document.querySelector("#lights");
 
-		// //photoresistor 
-		// socket.on('photoresistor', function(photoresistor){
-		// 	// console.log(photoresistor);
-		// 	light.innerHTML = photoresistor;
-		// });
+	//photoresistor 
+		socket.on('photoresistor', function(photoresistor){
+			lightsensor.innerHTML = photoresistor;
+		});
 
-		// //motion
-		// socket.on('motionstart', function(motionstart){
-		// 	motion.innerHTML = motionstart;
-		// });
-		// socket.on('motionend', function(motionend){
-		// 	motion.innerHTML = motionend;
-		// });
+	//motion
+		socket.on('motionstart', function(motionstart){
+			motion.innerHTML = motionstart;
+		});
+		socket.on('motionend', function(motionend){
+			motion.innerHTML = motionend;
+		});
+	
+	//lights
+		socket.on('lightson', function(lightson){
+			lights.innerHTML = lightson;
+		});
+		socket.on('lightsoff', function(lightsoff){
+			lights.innerHTML = lightsoff;
+		});
+	

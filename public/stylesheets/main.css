@@ -56,6 +56,10 @@ p{
     font-size: 20px;
 }
 
+li{
+  list-style: none;
+}
+
 .main{
     padding: 20px 40px;
     
@@ -106,11 +110,11 @@ li:first-child {
     margin-right: 2rem;
 }
 
-/*#books-grid{
+#books-grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    grid-gap: 10px;
-}*/
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
 
 .hor-scroll {
   display: flex;

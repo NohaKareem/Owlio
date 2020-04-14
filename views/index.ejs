@@ -20,8 +20,8 @@
       <div class="row">
         <div id="navbar">
         <nav class="navbar fixed-bottom justify-content-center">
-          <a class="navbar-link" href="#">Home</a>
-          <a class="navbar-link" href="#">Books</a>
+          <a class="navbar-link" href="/">Home</a>
+          <a class="navbar-link" href="/api/books">Books</a>
           <a class="navbar-link" href="#">Light</a>
           <a class="navbar-link" href="#">Settings</a>
         </nav>
@@ -30,8 +30,8 @@
       <div class="sidebar">
       <ul class="nav-sidebar">
           <li><a href="#"><img src="images/logo-orange.png"></a></li>
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Books</a></li>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/api/books">Books</a></li>
           <li><a href="#">Light</a></li>
           <li><a href="#">Settings</a></li>
       </ul>
@@ -63,8 +63,8 @@
           <button id="readingButton">start reading</button>
        
           <div id="book-slider">
-              <p id="seeAll">See All</p>
-              <div id="books-grid" class="hor-scroll">
+              <a href="/api/books"> See All</a>
+              <div class="hor-scroll">
       
                   <div class="book-card">
                   <img src="images/handmade.jpg" alt="sample book image" class="bookImage">
@@ -109,6 +109,8 @@
                   <p id="photoresistor"></p>
                   <h2>Motion</h2>
                   <p id="motion"></p>
+                  <h2>Lights to read are:</h2>
+                  <p id="lights"></p>
                   <input type="text" id="barcodeInput">
                   <button id="barcodeButton">add book</button>
                   <div id="addedBook">

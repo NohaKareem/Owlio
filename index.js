@@ -27,8 +27,18 @@ arduino.on('ready', function(){
     });
 
     photoresistor.on('data', function(){
-        console.log(this.value);   
+        console.log(this.value);
         io.sockets.emit('photoresistor', this.value); // checks light every 10 seconds
+    });
+
+    photoresistor.on('change', function(){
+        console.log(this.value);
+        if (photoresistor.value > 400) {
+            console.log("Low");
+        }   
+        else {
+            console.log("High");
+        }
     });
 
 //motion
@@ -37,12 +47,9 @@ arduino.on('ready', function(){
         pin: 7,
         freq: 1000
     });
-
-    // proximity.on("data", function() {
-        // console.log(this.cm + "cm", this.in + "in");
-    // });
-    
-    proximity.on("change", function() {
+            
+    proximity.on("data", function() {
+            //console.log(this.cm + "cm");
         if (proximity.cm < 35) {
             console.log("Someone's there!");
             io.sockets.emit('motionstart', "Someone's there!");
@@ -53,22 +60,50 @@ arduino.on('ready', function(){
         }
     });
 
-//neopixel lights
-// strip = new pixel.Strip({
-//     data: 6,
-//     length: 12,
-//     board: this,
-//     controller: "FIRMATA",
-// });
+    proximity.on("change", function(){
+        if (proximity.cm < 35 & photoresistor.value > 400) {
+            console.log("ON");
+            io.sockets.emit('lightson', "Lights are ON!");
+        }
+        else {
+            console.log("OFF");
+            io.sockets.emit('lightsoff', "Lights are OFF!");
+        }
+    });
 
-// strip.on("ready", function() {
-//     console.log("light up")
+// neopixel lights
+                // strip = new pixel.Strip({
+                //     board: this,
+                //     controller: "FIRMATA",
+                //     strips: [ {pin: 7, length: 12}],
+                //     gamma: 2.8,
+                // });
 
-//     for (i = 0; i < strip.stripLength(); i++) {
-//         console.log(i);
-//         strip.pixel(i).color("teal");
-//     }
-//     strip.show();
-// });
+                // strip.on("ready", function() {
+                // console.log("light up");
+                // strip.color('#903');
+                // strip.pixel(0).color('#074');
+
+                // strip.show();    
+
+        // var loop = setInterval(function () {
+        //     strip.shift(1, pixel.FORWARD, true);
+        //     strip.show();
+        // }, 1000 / 12);
+                // });  
+
+                // this.repl.inject({
+                //     strip: strip
+                // });
+
+        // strip.on("ready", function() {
+        //     console.log("light up")
+
+        //     for (i = 0; i < strip.stripLength(); i++) {
+        //         console.log(i);
+        //         strip.pixel(i).color("teal");
+        //     }
+        //     strip.show();
+        // });
     
 }); 
