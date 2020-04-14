@@ -27,72 +27,83 @@ arduino.on('ready', function(){
     });
 
     photoresistor.on('data', function(){
-        console.log(this.value);   
+        console.log(this.value);
         io.sockets.emit('photoresistor', this.value); // checks light every 10 seconds
     });
 
-//motion
-            // proximity = new five.Proximity({
-            //     controller: "HCSR04",
-            //     pin: 7,
-            //     freq: 1000
-            // });
-
-            // proximity.on("data", function() {
-            //     console.log(this.cm + "cm", this.in + "in");
-            // });
-            
-            // proximity.on("change", function() {
-            //     if (proximity.cm < 35) {
-            //         console.log("Someone's there!");
-            //         io.sockets.emit('motionstart', "Someone's there!");
-            //     } 
-            //     else {
-            //         console.log("Oops! no one's there.");
-            //         io.sockets.emit('motionend', "Oops! no one's there.");
-            //     }
-            // });
-
-
-// neopixel lights
-    strip = new pixel.Strip({
-        board: this,
-        controller: "FIRMATA",
-        strips: [ {pin: 7, length: 12}, ],
-        gamma: 2.8,
+    photoresistor.on('change', function(){
+        console.log(this.value);
+        if (photoresistor.value > 400) {
+            console.log("Low");
+        }   
+        else {
+            console.log("High");
+        }
     });
 
-    strip.on("ready", function() {
-        console.log("light up")
-        // Set the entire strip to pink.
-        strip.color('#903');
+//motion
+    proximity = new five.Proximity({
+        controller: "HCSR04",
+        pin: 7,
+        freq: 1000
+    });
+            
+    proximity.on("data", function() {
+            //console.log(this.cm + "cm");
+        if (proximity.cm < 35) {
+            console.log("Someone's there!");
+            io.sockets.emit('motionstart', "Someone's there!");
+        } 
+        else {
+            console.log("Oops! no one's there.");
+            io.sockets.emit('motionend', "Oops! no one's there.");
+        }
+    });
 
-        // Set first and seventh pixels to turquoise.
-        strip.pixel(0).color('#074');
-        strip.pixel(6).color('#074');
+    proximity.on("change", function(){
+        if (proximity.cm < 35 & photoresistor.value > 400) {
+            console.log("ON");
+            io.sockets.emit('lightson', "Lights are ON!");
+        }
+        else {
+            console.log("OFF");
+            io.sockets.emit('lightsoff', "Lights are OFF!");
+        }
+    });
 
-        // Send instructions to NeoPixel.
-        strip.show();
+// neopixel lights
+                // strip = new pixel.Strip({
+                //     board: this,
+                //     controller: "FIRMATA",
+                //     strips: [ {pin: 7, length: 12}],
+                //     gamma: 2.8,
+                // });
+
+                // strip.on("ready", function() {
+                // console.log("light up");
+                // strip.color('#903');
+                // strip.pixel(0).color('#074');
+
+                // strip.show();    
 
         // var loop = setInterval(function () {
-        //     // Shift all pixels clockwise
         //     strip.shift(1, pixel.FORWARD, true);
         //     strip.show();
         // }, 1000 / 12);
-    });
+                // });  
 
-    this.repl.inject({
-        strip: strip
-    });
+                // this.repl.inject({
+                //     strip: strip
+                // });
 
-    // strip.on("ready", function() {
-    //     console.log("light up")
+        // strip.on("ready", function() {
+        //     console.log("light up")
 
-    //     for (i = 0; i < strip.stripLength(); i++) {
-    //         console.log(i);
-    //         strip.pixel(i).color("teal");
-    //     }
-    //     strip.show();
-    // });
+        //     for (i = 0; i < strip.stripLength(); i++) {
+        //         console.log(i);
+        //         strip.pixel(i).color("teal");
+        //     }
+        //     strip.show();
+        // });
     
 }); 
