@@ -9,7 +9,8 @@ var Session = require('../models/Session.js');
 router.get('/books', (req, res, next) => {
     Book.find((err, books) => {
       handleErr(err);
-      res.json(books);
+      //res.json(books);
+      res.render('all_books', { title: 'All Books', books:books });
     });
 });
 
