@@ -11,6 +11,14 @@ var Setting = require('../models/Setting.js');
 router.get('/update', function(req, res, next) {
     res.render('update_settings', { title: 'Update SMS settings' });
 });
+// GET settings input form
+router.get('/new', function(req, res, next) {
+    res.render('new_setting', { title: 'Add light_settings' });
+  });
+
+router.get('/', function(req, res, next) {
+    res.render('settings', { title: 'Settings' });
+  });
   
 // GET a setting
 router.get('/:id', (req, res, next) => {

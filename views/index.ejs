@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, width=device-width">
     <title><%= title %></title>
@@ -17,25 +18,7 @@
   </head>
   <body class="home">
     <div class="container-fluid">
-      <div class="row">
-        <div id="navbar">
-        <nav class="navbar fixed-bottom justify-content-center">
-          <a class="navbar-link" href="/">Home</a>
-          <a class="navbar-link" href="/api/books">Books</a>
-          <a class="navbar-link" href="#">Light</a>
-          <a class="navbar-link" href="#">Settings</a>
-        </nav>
-      </div>
-      
-      <div class="sidebar">
-      <ul class="nav-sidebar">
-          <li><a href="#"><img src="images/logo-orange.png"></a></li>
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/api/books">Books</a></li>
-          <li><a href="#">Light</a></li>
-          <li><a href="#">Settings</a></li>
-      </ul>
-      </div>
+  <% include components/navbar %>
       
       
       <div class="main col-sm-12">
@@ -43,27 +26,35 @@
       
           <!-- LEFT SIDE -->
           <div class="left-side">
+
+        <div id="start-reading">
+        <h4>Start Reading</h4>
+
+        <div class="input-group mb-3">
+        <input type="text" id="readingBarcodeInput" class="form-control" value="9781455586691" aria-label="ISBN">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="readingButton" type="button">start</button>
+        </div>
+      </div>
+      </div>
       
-          <div id="reading-time">
-              <h3>Total time spent reading: 5 hours</h3>
-          </div>
-      
-          <div id="recent-actions">
-              <h3>Recent Actions:</h3>
+      <div id="recent-actions">
+      <h4>Recent Actions:</h4>
+          <ul class="list-group list-group-flush">
+              
+
               <% sessions.forEach(session=>{ %>
                 <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
-                 <p> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> </p>
+                 <li class="list-group-item"> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> </li>
               <% }) %>
-              <p>Thurs. 27 Feb: read The Handmid's Tale</p>
-              <p>Wed. 26 Feb: read Get Out of Your Head</p>
+
+          </ul>
           </div>
 
-          <h2>Start Reading!</h2>
-          <input type="text" id="readingBarcodeInput" value="9781455586691">
-          <button id="readingButton">start reading</button>
+          
        
           <div id="book-slider">
-              <a href="/api/books"> See All</a>
+              
               <div class="hor-scroll">
       
                   <div class="book-card">
@@ -93,6 +84,7 @@
                       <div class="progressBar"></div>
                       <div class="progressBarOverlay"></div>
                   </div>
+                  <a href="/api/books"> See More</a>
               </div>
           </div>
       
@@ -104,15 +96,21 @@
           <div class="right-side">
           <div id="categories">
               <div id="tree-map">
-                <div id="container">
-                  <h2>Light</h2>
+                <div id="sensors-data">
+                  <h4>Sensors Data</h4>
+                  <p>Light</p>
                   <p id="photoresistor"></p>
-                  <h2>Motion</h2>
+                  <p>Motion</p>
                   <p id="motion"></p>
-                  <h2>Lights to read are:</h2>
+                  <p>Lights to read are:</p>
                   <p id="lights"></p>
-                  <input type="text" id="barcodeInput">
-                  <button id="barcodeButton">add book</button>
+
+                  <div class="input-group mb-3">
+                  <input type="text" id="barcodeInput" class="form-control">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="barcodeButton" type="button">add book</button>
+                  </div>
+                </div>
                   <div id="addedBook">
                       <h2 id="addedBookTitle"></h2>
                       <img src="" alt="" class="bookImage" id="addedBookImage">
@@ -130,6 +128,7 @@
       
       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
       <script src="/socket.io/socket.io.js"></script>
+      <!-- <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script> -->
       <script src="main.js"></script>	
   </body>
 </html>
