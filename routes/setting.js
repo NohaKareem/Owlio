@@ -6,6 +6,10 @@ var Setting = require('../models/Setting.js');
 router.get('/new', function(req, res, next) {
     res.render('new_setting', { title: 'Add light_settings' });
   });
+
+router.get('/', function(req, res, next) {
+    res.render('settings', { title: 'Settings' });
+  });
   
 // GET a setting
 router.get('/:id', (req, res, next) => {

@@ -16,31 +16,19 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   </head>
   
-  <body>
+  <body class="home">
     <div class="container-fluid">
 
     <% include components/navbar %>
-    
-    <div id="book-item">
-        <div id="card">
 
-        <div id="left-card">
-            <img id="poster" src="<%= book.image %>">
-        </div>
+        <div class="container">
+            <p>Would you like to be notified about your reading practise? Set up a reminder!</p>
 
-        <div id="right-card">
-            <h4><%= book.title  %></h4>
-            <p>Author: <%= book.author %></p>
-            <p>Rating: <%= book.rating %></p>
-            <p>Genre: <%= book.genre  %></p>
-            <p>Review: <%= book.review  %></p>
-        </div>
-      </div>
+            <h3>Time</h3>
+            <h3>Day</h3>
+            <h3>Your Phone Number</h3>
+            <button type="submit" class="btn">Set</button>
 
-
-            <a href="/api/books"><button type="submit" class="btn">Back</button></a>
-
-            <p>Sessions history:</p>
         </div>
                                 
     </div>
