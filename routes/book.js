@@ -28,9 +28,10 @@ router.get('/new', function(req, res, next) {
   // GET a book
   // test book id 5e836fba28dc636184951a9a
   router.get('/:id', (req, res, next) => {
-    Book.find({  _id: req.params.id }, (err, book) => {
+    Book.findOne({  _id: req.params.id }, (err, book) => {
       handleErr(err);
-      res.json(book);
+      //res.json(book);
+      res.render('book_details', { title: 'Book Details', book:book });
     });
   });
 

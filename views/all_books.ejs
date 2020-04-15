@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <title><%= title %></title>
+    <link href="stylesheets/reset.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/vue@2.3.4"></script>
+    
+    <link href="/stylesheets/main.css" rel="stylesheet" type="text/css">
+    <!------ Include the above in your HEAD tag ---------->
+    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+  </head>
+
+  <body class="home">
+    <div class="container-fluid">
+      <div class="row">
+        <div id="navbar">
+        <nav class="navbar fixed-bottom justify-content-center">
+          <a class="navbar-link" href="/">Home</a>
+          <a class="navbar-link" href="/api/books">Books</a>
+          <a class="navbar-link" href="#">Light</a>
+          <a class="navbar-link" href="#">Settings</a>
+        </nav>
+      </div>
+      
+      <div class="sidebar">
+      <ul class="nav-sidebar">
+          <li><a href="#"><img src="/images/logo-orange.png"></a></li>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/api/books">Books</a></li>
+          <li><a href="#">Light</a></li>
+          <li><a href="#">Settings</a></li>
+      </ul>
+      </div>
+      
+      <h1>All Books</h1>
+
+      <div class="main col-sm-12">
+          
+    <ul id="books-grid">
+
+      <% for(var i = 0; i < books.length; i++) { %>
+
+          <li class="book-card">
+
+            <a href="/book/<%= books[i]._id %>">
+            <img src="<%= books[i].image %>" alt="book cover image">
+            <h2> <%= books[i].title  %></h2></a>
+            <p>Author: <%= books[i].author  %></p>  
+            <p><%= books[i].isbn  %></p> 
+            <p>Rating: <%= books[i].rating  %></p> 
+            <p><%= books[i].review  %></p>  
+
+          </li>
+
+        <% } %>
+    </ul>
+
+
+    </div>
+      
+      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="main.js"></script>	
+  </body>
+</html>

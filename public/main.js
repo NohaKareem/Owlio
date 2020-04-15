@@ -7,6 +7,7 @@ let barcodeButton = document.querySelector('#barcodeButton');
 let readingButton = document.querySelector('#readingButton');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
+var curr_session;
 const SERVER = 'http://localhost:3000';
 
 // finds book by input barcode using barcodable API
@@ -52,7 +53,7 @@ function toggleReadingSession() {
 
 	// get book id, if exists
 	axiosGET(`${SERVER}/book/barcode/${readingBarcode}`, (response) => {
-		let book = response.data;
+		var book = response.data;
 		console.log(book)
 		
 		// add book if doesn't exist
@@ -63,13 +64,29 @@ function toggleReadingSession() {
 			};
 
 			axiosPOST(`${SERVER}/book`, newBook, (response) => {
-				// console.log(response.data)
+				// console.log('saved new book', response.data)
 
 				// update book
 				book = response.data;
 			});
 		}
+
+		// if reading, start session
+		if (reading) {
+			let newSession = {
+				start_time: new Date(), // current time stamp 
+				book_id: book._id, 
+				// light_lumens: 
+			};
+
+			axiosPOST(`${SERVER}/session`, newSession, (response) => {
+				console.log('saved session start', response.data);
+				curr_session = response.data;
+			});
+		}
 	});
+
+
 }
 
 readingButton.addEventListener("click", toggleReadingSession, false);
