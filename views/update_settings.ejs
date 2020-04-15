@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='stylesheets/reset.css' />
+    <link rel='stylesheet' href='stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/setting/5e875da13520f25d2858768f" method="POST">
+      <label for="phone_number">phone number</label>
+      <input type="text" name="phone_number" id="phone_number" value="1233456789">
+      <br>
+      <p> today is day <%= new Date().getDay() %> </p>
+      <p>days of week are 0 Sun 1 Mon. 2 Tues. 3 Wed. 4 Thur 5. Fri 6. Sat </p>
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getDay"> ref here </a></p>
+      <label for="day_of_week">day of week</label>
+      <input type="number" name="day_of_week" id="day_of_week" value="2">
+      <br>
+      <label for="time">time</label>
+      <input type="time" name="time" id="time" value="08:00">
+      <br>
+      <input type="submit" value="update">
+  </form>
+  </body>
+</html>

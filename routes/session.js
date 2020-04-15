@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Session = require('../models/Session.js');
+var Book = require('../models/Book.js');
 
 // GET session input form
 router.get('/new', function(req, res, next) {
@@ -28,9 +29,9 @@ router.get('/:id', (req, res, next) => {
 });
   
 // GET a book session
-// test book id 5e836fba28dc636184951a9a
+// test book id 5e836fba28dc636184951a9a  5e8e15a316738a7b00ed25af
 router.get('/book/:id', (req, res, next) => {
-    Session.find({  book_id: req.params.id }, (err, session) => {
+    Session.find({ book_id: req.params.id }, (err, session) => {
         handleErr(err);
       res.json(session);
     });
@@ -66,6 +67,15 @@ router.post('/', (req, res, next) => {
 
     res.redirect('/');
 });
+
+    // // get session data, with populated book data
+    // // test /session/5e869f8875fbcae590db6e60/book/details
+    // router.get('/:sessionId/book/details', (req, res, next) => {
+    //     Session.findOne({ _id: req.params.sessionId }, (err, session) => {
+    //         res.json(session);
+    //     }).populate('book_id');
+    // }); 
+  
 
 function handleErr(err) {
     if(err) return next(err);
