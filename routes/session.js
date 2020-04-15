@@ -33,7 +33,8 @@ router.get('/:id', (req, res, next) => {
 router.get('/book/:id', (req, res, next) => {
     Session.find({ book_id: req.params.id }, (err, session) => {
         handleErr(err);
-      res.json(session);
+      //res.json(session);
+      res.render('session_history', { title: 'Session History', session:session });
     });
 });
   
