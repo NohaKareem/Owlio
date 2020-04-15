@@ -28,6 +28,9 @@ mongoose.connect('mongodb+srv://' + dbAuth.DB_AUTH + '@cluster0-y9uwh.mongodb.ne
 });
 
 var app = express();
+let http = require('http').createServer(app); // create http server
+let io = require('socket.io')(http);
+// app.listen(8080);
 
 // allow cors
 app.use(function(req, res, next) {
