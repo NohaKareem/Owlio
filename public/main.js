@@ -85,8 +85,6 @@ function toggleReadingSession() {
 			});
 		}
 	});
-
-
 }
 
 readingButton.addEventListener("click", toggleReadingSession, false);
