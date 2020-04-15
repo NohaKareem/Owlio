@@ -154,6 +154,7 @@ barcodeButton.addEventListener("click", findBookByBarcode);
 
 	//photoresistor 
 		socket.on('photoresistor', function(photoresistor){
+			// console.log("photo");
 			lightsensor.innerHTML = photoresistor;
 		});
 
