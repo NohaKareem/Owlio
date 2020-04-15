@@ -151,9 +151,13 @@ barcodeButton.addEventListener("click", findBookByBarcode);
 	let lights = document.querySelector("#lights");
 
 	//photoresistor 
-		socket.on('photoresistor', function(photoresistor){
+		socket.on('photoresistorhigh', function(photoresistorhigh){
 			// console.log("photo");
-			lightsensor.innerHTML = photoresistor;
+			lightsensor.innerHTML = photoresistorhigh;
+		});
+		socket.on('photoresistorlow', function(photoresistorlow){
+			// console.log("photo");
+			lightsensor.innerHTML = photoresistorlow;
 		});
 
 	//motion
