@@ -31,9 +31,9 @@
         <div id="right-card">
             <h4><%= book.title  %></h4>
             <p>Author: <%= book.author %></p>
-            <p>Rating: <%= book.rating %></p>
             <p>Genre: <%= book.genre  %></p>
             <p>Review: <%= book.review  %></p>
+            <p>Rating: <%= book.rating %></p>
         </div>
       </div>
 
@@ -41,6 +41,7 @@
             <a href="/api/books"><button type="submit" class="btn">Back</button></a>
 
             <p>Sessions history:</p>
+            <a href="/session/book/<%= book._id %>"><button type="submit" class="btn">View Sessions</button></a>
         </div>
                                 
     </div>

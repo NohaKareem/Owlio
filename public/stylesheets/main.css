@@ -258,6 +258,87 @@ text-align: center;
   color: #fff !important;
 }
 
+.weekDays-selector input {
+  display: none !important;
+}
+
+.weekDays-selector input[type="checkbox"] + label {
+  display: inline-block;
+  border-radius: 20px;
+  border: 1px solid #000;
+  height: 40px;
+  width: 40px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.weekDays-selector input[type="checkbox"]:checked + label {
+  background: #F28921;
+  color: #ffffff;
+  border: 1px solid #F28921;
+}
+
+.settings-container h2{
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.settings-container p{
+  text-align: center;
+}
+
+.settings-container h4{
+  padding-top: 1.6rem;
+}
+
+.settings-container .btn{
+  margin: 2rem 0;
+  background-color: #F28921 !important;
+  border: 1px solid #F28921 !important;
+  color: #fff !important;
+  text-transform: uppercase;
+}
+
+.settings-input{
+  padding-left: 0;
+}
+
+input[type=checkbox].fav-checkbox {
+  position:absolute; 
+  z-index:-1000; 
+  left:-1000px; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height:1px; 
+  width:1px; 
+  margin:-1px; 
+  padding:0; 
+  border:0;
+}
+
+input[type=checkbox].fav-checkbox + label.fav-label {
+  padding-left:20px;
+  height:15px; 
+  display:inline-block;
+  line-height:15px;
+  background-repeat:no-repeat;
+  background-position: 0 0;
+  font-size:15px;
+  vertical-align:middle;
+  cursor:pointer;
+
+}
+
+input[type=checkbox].fav-checkbox:checked + label.fav-label {
+  background-position: 0 -15px;
+}
+label.fav-label {
+  background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_1437560032a3e1345ce3a7bb5fec77cc.png);
+}
+
+
 
 
 /*Media Queries*/

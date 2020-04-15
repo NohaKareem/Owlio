@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/vue@2.3.4"></script>
     
     <link href="/stylesheets/main.css" rel="stylesheet" type="text/css">
+
     <!------ Include the above in your HEAD tag ---------->
     
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
@@ -37,6 +38,14 @@
             <p>Author: <%= books[i].author  %></p>  
             <p>ISBN: <%= books[i].isbn  %></p> 
             <p>Rating: <%= books[i].rating  %></p> 
+
+            <div>
+            <form action="" method="POST">
+            <input type="checkbox" name="favourite" id="favourite" class="fav-checkbox" />
+            <label for="favourite" class="fav-label"></label>
+            </form>
+            </div>
+
 
           </li>
 
