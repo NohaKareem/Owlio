@@ -61,31 +61,29 @@ function toggleReadingSession() {
 		book = response.data;
 		
 		// add book if doesn't exist
-		// test (cookbook)9781501127618  9780310116400
+		// test (cookbook)9781501127618  9781771642484 !9780310116400
 		if (!book) {
 
 			// get data by barcode
 			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
 			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
 			let title, isbn;
-			// axiosGET(barcode_api, (response) => {
-			// 		console.log('in  barcode request')
+			axiosGET(barcode_api, (response) => {
+					console.log('in  barcode response', response.data)
 		
-			// 		title = response.data.item.matched_items[0].title; //barcodeable
-			// 		let isbn = response.data.item.isbn; //barcodable
-			// 		console.log('book data so far', bookData)
+					title = response.data.item.matched_items[0].title; //barcodeable
+					let isbn = response.data.item.isbn; //barcodable
 		
 					// retrieve author, book image, page numbers and genre (category) from google books api 
-					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
-					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
-						console.log('in google')
+					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
+					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
+						console.log('in google', response.data)
 						let volumeInfo = response.data.items[0].volumeInfo;
 						console.log(volumeInfo)
 						
 						let newBook = {};
-						// let bookData = {};
 						newBook.barcode = readingBarcode;
-						newBook.isbn = (isbn ? isbn : "");//~
+						newBook.isbn = isbn;
 						newBook.title = volumeInfo.title;
 						newBook.author = volumeInfo.authors[0];
 						newBook.image = volumeInfo.imageLinks.thumbnail;
@@ -93,10 +91,6 @@ function toggleReadingSession() {
 						newBook.genre = volumeInfo.categories[0];
 						console.log('new book is ')
 						console.log(newBook)
-						// let newBook = {
-						// 	barcode: readingBarcode//, 
-						// 	// isbn: isbn
-						// };
 
 						// add book
 						axiosPOST(`${SERVER}/book`, newBook, (response) => {
@@ -104,8 +98,7 @@ function toggleReadingSession() {
 							book = response.data;
 						});
 			});
-			// console.log('after google')
-		// });
+		});
 		} else {
 			console.log('book already exists')
 		}
