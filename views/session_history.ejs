@@ -20,7 +20,10 @@
     <div class="container-fluid">
         <% include components/navbar %>
         <div class="container">
-            <%= sessions %>
+            <% if(sessions.length < 1) { %>
+                <div>No reading sessions for this book yet!</div>
+            <% } %>
+            
             <% sessions.forEach((session) => { %>
                 <div>
                     <p>Start: <%= session.start_time  %></p>
