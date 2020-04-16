@@ -69,13 +69,16 @@ router.post('/', (req, res, next) => {
     res.redirect('/');
 });
 
-    // // get session data, with populated book data
-    // // test /session/5e869f8875fbcae590db6e60/book/details
-    // router.get('/:sessionId/book/details', (req, res, next) => {
-    //     Session.findOne({ _id: req.params.sessionId }, (err, session) => {
-    //         res.json(session);
-    //     }).populate('book_id');
-    // }); 
+    // get session data, with populated book data
+    // test /session/5e869f8875fbcae590db6e60/book/details
+    router.get('/:sessionId/book/details', (req, res, next) => {
+        Session.findOne({ _id: req.params.sessionId }, (err, session) => {
+            res.json(session);
+        }).populate({
+            path: 'book_id', 
+            model: 'Book'
+        });
+    }); 
   
 
 function handleErr(err) {
