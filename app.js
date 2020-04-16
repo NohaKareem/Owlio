@@ -112,11 +112,11 @@ arduino.on('ready', function(){
     photoresistor.on('change', function(){
         console.log(this.value);
         if (photoresistor.value > 400) {
-            console.log("Lighs are too low for you to reading.");
-            io.sockets.emit('photoresistorlow', "Lighs are too low for you to read.");
+            console.log("Lights are too low for you to read.");
+            io.sockets.emit('photoresistorlow', "Lights are too low for you to read.");
         }   
         else {
-            console.log("This light is good for read.");
+            console.log("This light is good for reading.");
             io.sockets.emit('photoresistorhigh', "This light is good for reading.");
         }
     });
