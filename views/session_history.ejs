@@ -26,9 +26,13 @@
             
             <% sessions.forEach((session) => { %>
                 <div>
-                    <p>Start: <%= session.start_time  %></p>
-                    <p>End: <%= session.end_time %></p>
-                    <p>Comment: <%= session.comment  %></p>
+                    <p>Session started at: <%= session.start_time  %></p>
+                    <p>Session ended: <%= session.end_time %></p>
+                    <p>Session comment: </p>
+                    <form action="/session/<%= session._id %>/comment">
+                        <input type="text" value="<%= session.comment  %>">
+                        <input type="submit" value="update">
+                    </form>
                 </div>
             <% }) %>
         </div>
