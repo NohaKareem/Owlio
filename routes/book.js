@@ -84,6 +84,17 @@ router.get('/new', function(req, res, next) {
     res.redirect('/');
   });
 
+  // GET favorite
+  router.get('/:id/favorite', (req, res, next) => {
+    Book.findOne({  _id: req.params.id }, (err, book) => {
+      handleErr(err);
+      // res.json(book.favorite);
+      // return;
+      res.redirect('/api/books');
+      // res.render('all_books', { title: 'All Books', books:books });
+    });
+  });
+
   // Add review
   router.post('/:id/review', (req, res, next) => {
     var q = Book.findOneAndUpdate({  _id: req.params.id }, 

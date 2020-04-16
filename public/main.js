@@ -44,7 +44,48 @@ function findBookByBarcode() {
 	} );
 }
 
+function getBookDataByBarcode(barcode) {
+
+	console.log('before barcode')
+	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
+	// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
+	let title, isbn;
+	// axiosGET(barcode_api, (response) => {
+	// 		console.log('in  barcode request')
+
+	// 		title = response.data.item.matched_items[0].title; //barcodeable
+	// 		let isbn = response.data.item.isbn; //barcodable
+	// 		console.log('book data so far', bookData)
+
+			// retrieve author, book image, page numbers and genre (category) from google books api 
+			axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
+			// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
+				console.log('in google')
+				let volumeInfo = response.data.items[0].volumeInfo;
+				console.log(volumeInfo)
+
+				let bookData = {};
+				bookData.barcode = barcode;
+				bookData.title = title;
+				bookData.isbn = isbn;
+				bookData.author = volumeInfo.authors[0];
+				bookData.image = volumeInfo.imageLinks.thumbnail;
+				// bookData.image = response.data.items[0].volumeInfobookData.imageLinks.thumbnail;
+				bookData.pages = volumeInfo.pageCount;
+				bookData.genre = volumeInfo.categories[0];
+				console.log(bookData)
+		return bookData;
+	});
+			console.log('after google')
+		// });
+		console.log('book data @end', bookData)
+}
+
 function toggleReadingSession() {
+	// console.log('about to sms')
+	// sendMsg();
+	// console.log('texted!')
+
 	// toggle start/stop reading button display
 	readingButton.innerHTML = (!reading ? "stop" : "start") + " reading";
 	reading = !reading;
@@ -52,33 +93,35 @@ function toggleReadingSession() {
 	let readingBarcode = readingBarcodeInput.value;
 
 	// get book id, if exists
+	var book;
 	axiosGET(`${SERVER}/book/barcode/${readingBarcode}`, (response) => {
-		var book = response.data;
-		console.log(book)
+		book = response.data;
 		
 		// add book if doesn't exist
+		// test (cookbook)9781501127618  9780310116400
 		if (!book) {
-			let newBook = {
-				barcode: readingBarcode//, 
-				// isbn: isbn
-			};
+			let newBook = getBookDataByBarcode(readingBarcode);
+			// let newBook = {
+			// 	barcode: readingBarcode//, 
+			// 	// isbn: isbn
+			// };
 
+			// add book
 			axiosPOST(`${SERVER}/book`, newBook, (response) => {
-				// console.log('saved new book', response.data)
-
-				// update book
 				book = response.data;
 			});
+		} else {
+			console.log('book already exists')
 		}
 
 		// if reading, start session
 		if (reading) {
 			let newSession = {
 				start_time: new Date(), // current time stamp 
-				book_id: book._id, 
+				book_id: book._id
 				// light_lumens: 
 			};
-
+			console.log('about to post session', newSession)
 			axiosPOST(`${SERVER}/session`, newSession, (response) => {
 				console.log('saved session start', response.data);
 				curr_session = response.data;
@@ -113,66 +156,75 @@ function axiosPOST(url, data, responseMethod) {
 }
 
 //twilio sms notifications method
-function sendMsg(){
+function sendMsg() {
+	// const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
+	// const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
+	const client = require('twilio')(accountSid, authToken);
+	cronJob = require('cron').CronJob;
 
-const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
-const authToken = '1063070c39efe9746b2992002c3c40ad';
-const client = require('twilio')(accountSid, authToken);
-cronJob = require('cron').CronJob;
+	//That is a format specific to cron that let’s us define the time 
+	//and frequency of when we want this job to fire. In this case, 
+	//at 01 minutes 17 hours every day. Check time specifics via link below:
+	//http://www.nncron.ru/help/EN/working/cron-format.htm
 
-//That is a format specific to cron that let’s us define the time 
-//and frequency of when we want this job to fire. In this case, 
-//at 01 minutes 17 hours every day. Check time specifics via link below:
-//http://www.nncron.ru/help/EN/working/cron-format.htm
+	//to: ' ' - put your cell phone number there
+	var textJob = new cronJob( '19 12 * * *', function() {
+	client.messages.create( { 
+			to:'+12262247542',
+			from: twilioPhoneNumber, 
+			body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+		}, function( err, data ) {
 
-//to: ' ' - put your cell phone number there
-var textJob = new cronJob( '19 12 * * *', function(){
-  client.messages.create( { to:'+12262247542', from:'12058435519', body:'Hello!👋 Hope you’re having a good day! Wanna read?' }, function( err, data ) {});
-},  null, true);
+		}).then(function(response) {
+			console.log('Message sent', data);
+		}).catch(function(err) {
+			console.error(error);
+		});
+	},  null, true);
 
-//This code is for non-timed messages
+	//This code is for non-timed messages
 
-// client.messages
-//   .create({
-//      body: "Hey there!👋 It's time for couple pages, isn't it?",
-//      from: '+12058435519',
-//      to: '+12262247542' //paste your own phone number
-//    })
-//   .then(message => console.log(message.sid));
+	// client.messages
+	//   .create({
+	//      body: "Hey there!👋 It's time for couple pages, isn't it?",
+	//      from: '+12058435519',
+	//      to: '+12262247542' //paste your own phone number
+	//    })
+	//   .then(message => console.log(message.sid));
 
 }
 
 barcodeButton.addEventListener("click", findBookByBarcode);
 
 // sensors
-	let socket = io.connect("http://localhost:3000");
-	let lightsensor = document.querySelector("#photoresistor");
-	let motion = document.querySelector("#motion");
-	let lights = document.querySelector("#lights");
+let socket = io.connect("http://localhost:3000");
+let lightsensor = document.querySelector("#photoresistor");
+let motion = document.querySelector("#motion");
+let lights = document.querySelector("#lights");
 
-	//photoresistor 
-		socket.on('photoresistorhigh', function(photoresistorhigh){
-			// console.log("photo");
-			lightsensor.innerHTML = photoresistorhigh;
-		});
-		socket.on('photoresistorlow', function(photoresistorlow){
-			// console.log("photo");
-			lightsensor.innerHTML = photoresistorlow;
-		});
+//photoresistor 
+	socket.on('photoresistorhigh', function(photoresistorhigh){
+		// console.log("photo");
+		lightsensor.innerHTML = photoresistorhigh;
+	});
+	socket.on('photoresistorlow', function(photoresistorlow){
+		// console.log("photo");
+		lightsensor.innerHTML = photoresistorlow;
+	});
 
-	//motion
-		socket.on('motionstart', function(motionstart){
-			motion.innerHTML = motionstart;
-		});
-		socket.on('motionend', function(motionend){
-			motion.innerHTML = motionend;
-		});
-	
-	//lights
-		socket.on('lightson', function(lightson){
-			lights.innerHTML = lightson;
-		});
-		socket.on('lightsoff', function(lightsoff){
-			lights.innerHTML = lightsoff;
-		});
+//motion
+	socket.on('motionstart', function(motionstart){
+		motion.innerHTML = motionstart;
+	});
+	socket.on('motionend', function(motionend){
+		motion.innerHTML = motionend;
+	});
+
+//lights
+	socket.on('lightson', function(lightson){
+		lights.innerHTML = lightson;
+	});
+	socket.on('lightsoff', function(lightsoff){
+		lights.innerHTML = lightsoff;
+	});
 	
