@@ -9,6 +9,7 @@ let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
+var photoresistorReading = -1;
 var curr_session;
 const SERVER = 'http://localhost:3000';
 
@@ -111,8 +112,8 @@ function toggleReadingSession() {
 		if (reading) {
 			let newSession = {
 				start_time: new Date(), // current time stamp 
-				book_id: book._id
-				// light_lumens: 
+				book_id: book._id,
+				light_lumens: photoresistorReading // current photoresistor reading
 			};
 			console.log('about to post session', newSession)
 			// axiosPOST(`${SERVER}/session`, newSession, (response) => {
@@ -199,6 +200,9 @@ let lights = document.querySelector("#lights");
 	socket.on('photoresistorhigh', function(photoresistorhigh){
 		// console.log("photo");
 		lightsensor.innerHTML = photoresistorhigh;
+
+		// save later to be saved in a reading session
+		photoresistorReading =  photoresistorhigh;
 	});
 	socket.on('photoresistorlow', function(photoresistorlow){
 		// console.log("photo");

@@ -11,18 +11,23 @@ var Setting = require('../models/Setting.js');
 router.get('/update', function(req, res, next) {
     res.render('update_settings', { title: 'Update SMS settings' });
 });
+
 // // GET settings input form
 // router.get('/new', function(req, res, next) {
 //     res.render('new_setting', { title: 'Add light_settings' });
 //   });
 
 router.get('/', function(req, res, next) {
-    res.render('settings', { title: 'Settings' });
+    Setting.findOne({  _id: "5e875da13520f25d2858768f" }, (err, settings) => {
+        handleErr(err);
+        // res.json(settings);
+        res.render('settings', { title: 'Settings', settings: settings });
+    });
   });
   
 // GET a setting
 router.get('/:id', (req, res, next) => {
-    Setting.find({  _id: req.params.id }, (err, setting) => {
+    Setting.findOne({  _id: req.params.id }, (err, setting) => {
         handleErr(err);
         res.json(setting);
     });
