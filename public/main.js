@@ -9,7 +9,7 @@ let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
-let sms = document.querySelector('#sms');
+// let sms = document.querySelector('#sms');
 var curr_session;
 const SERVER = 'http://localhost:3000';
 
@@ -151,13 +151,13 @@ function axiosPOST(url, data, responseMethod) {
 
 
 //twilio sms notifications method
-function sendMsg() {
+// function sendMsg() {
 	// const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
 	// const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
-	const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
-	const authToken = '1063070c39efe9746b2992002c3c40ad';
-	const client = require('twilio')(accountSid, authToken);
-	cronJob = require('cron').CronJob;
+	// const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
+	// const authToken = '1063070c39efe9746b2992002c3c40ad';
+	// const client = require('twilio')(accountSid, authToken);
+	// cronJob = require('cron').CronJob;
 
 	//That is a format specific to cron that let’s us define the time 
 	//and frequency of when we want this job to fire. In this case, 
@@ -181,19 +181,19 @@ function sendMsg() {
 
 	//This code is for non-timed messages
 
-	client.messages
-	  .create({
-	     body: "Hey there!👋 It's time for couple pages, isn't it?",
-	     from: '+12058435519',
-	     to: '+12269276883' //paste your own phone number
-	   })
-	  .then(message => console.log(message.sid));
-}
+	// client.messages
+	//   .create({
+	//      body: "Hey there!👋 It's time for couple pages, isn't it?",
+	//      from: '+12058435519',
+	//      to: '+12269276883' //paste your own phone number
+	//    })
+	//   .then(message => console.log(message.sid));
+// }
 // sms.addEventListener("click", sendMsg, true);
-console.log("sms run");
+// console.log("sms run");
 
 
-barcodeButton.addEventListener("click", findBookByBarcode);
+// barcodeButton.addEventListener("click", findBookByBarcode);
 
 // sensors
 let socket = io.connect("http://localhost:3000");
