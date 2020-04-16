@@ -7,6 +7,7 @@ let barcodeButton = document.querySelector('#barcodeButton');
 let readingButton = document.querySelector('#readingButton');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
+let sms = document.querySelector('#sms');
 var curr_session;
 const SERVER = 'http://localhost:3000';
 
@@ -151,10 +152,13 @@ function axiosPOST(url, data, responseMethod) {
 	});
 }
 
+
 //twilio sms notifications method
 function sendMsg() {
 	// const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
 	// const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
+	const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
+	const authToken = '1063070c39efe9746b2992002c3c40ad';
 	const client = require('twilio')(accountSid, authToken);
 	cronJob = require('cron').CronJob;
 
@@ -164,31 +168,33 @@ function sendMsg() {
 	//http://www.nncron.ru/help/EN/working/cron-format.htm
 
 	//to: ' ' - put your cell phone number there
-	var textJob = new cronJob( '19 12 * * *', function() {
-	client.messages.create( { 
-			to:'+12262247542',
-			from: twilioPhoneNumber, 
-			body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-		}, function( err, data ) {
+	// var textJob = new cronJob( '19 12 * * *', function() {
+	// client.messages.create( { 
+	// 		to:'+12262247542',
+	// 		from: twilioPhoneNumber, 
+	// 		body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+	// 	}, function( err, data ) {
 
-		}).then(function(response) {
-			console.log('Message sent', data);
-		}).catch(function(err) {
-			console.error(error);
-		});
-	},  null, true);
+	// 	}).then(function(response) {
+	// 		console.log('Message sent', data);
+	// 	}).catch(function(err) {
+	// 		console.error(error);
+	// 	});
+	// },  null, true);
 
 	//This code is for non-timed messages
 
-	// client.messages
-	//   .create({
-	//      body: "Hey there!👋 It's time for couple pages, isn't it?",
-	//      from: '+12058435519',
-	//      to: '+12262247542' //paste your own phone number
-	//    })
-	//   .then(message => console.log(message.sid));
-
+	client.messages
+	  .create({
+	     body: "Hey there!👋 It's time for couple pages, isn't it?",
+	     from: '+12058435519',
+	     to: '+12269276883' //paste your own phone number
+	   })
+	  .then(message => console.log(message.sid));
 }
+// sms.addEventListener("click", sendMsg, true);
+console.log("sms run");
+
 
 barcodeButton.addEventListener("click", findBookByBarcode);
 
