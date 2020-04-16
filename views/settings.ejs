@@ -27,13 +27,13 @@
 
 
     <form action="/setting/5e875da13520f25d2858768f" method="POST">
-        <%= settings %>
         
         <div class="form-group">
           <label for="time"><h4>Time</h4></label><br>
           <div class="settings-input col-sm-4">
+
           <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
-          <input type="time" name="time" id="time" class="form-control">
+          <input type="time" name="time" id="time" class="form-control" value="<%= ("0"+settings.time.getHours()).slice(-2)  + ':' + ("0"+settings.time.getMinutes()).slice(-2)  %>">
           </div>
         </div>
         
@@ -70,7 +70,7 @@
           </div>
         </div>
         
-        <input type="submit" class="btn" value="set">
+        <input type="submit" class="btn" value="update settings">
     </form>
     <form action="/sendSMS">
       <input type="submit" class="btn" value="test sms">
