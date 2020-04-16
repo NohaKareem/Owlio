@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var settingSchema = new mongoose.Schema({
         phone_number: String, 
-        day_of_week: Number,
+        days_of_week: [Number],
         time: Date
 });
 

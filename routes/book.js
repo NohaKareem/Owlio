@@ -5,12 +5,19 @@ var Book = require('../models/Book.js');
 // POST new book
 router.post('/', (req, res, next) => {
   var newBook = new Book(); 
+  console.log('req.body', req.body)
   newBook.review = req.body.review;
   newBook.rating = req.body.rating;
   newBook.barcode = req.body.barcode;
   newBook.isbn = req.body.isbn;
+  newBook.title = req.body.title;
+  console.log(req.body.title);
+  newBook.author = req.body.author;
+  newBook.genre = req.body.genre;
+  newBook.pages = req.body.pages;
+  newBook.image = req.body.image;
   newBook.favorite = req.body.favorite;
-
+  
   newBook.save((err, book) => { 
     handleErr(err);
     console.log("Book saved to data collection", book);
@@ -81,19 +88,21 @@ router.get('/new', function(req, res, next) {
     q.exec(function(err, mydata) {
         console.log('updated favorite');
       });
-    res.redirect('/');
+    // stay on same page https://stackoverflow.com/a/36282033/1446598
+    res.redirect('back');
+    // return;
   });
 
-  // GET favorite
-  router.get('/:id/favorite', (req, res, next) => {
-    Book.findOne({  _id: req.params.id }, (err, book) => {
-      handleErr(err);
-      // res.json(book.favorite);
-      // return;
-      res.redirect('/api/books');
-      // res.render('all_books', { title: 'All Books', books:books });
-    });
-  });
+  // // GET favorite
+  // router.get('/:id/favorite', (req, res, next) => {
+  //   Book.findOne({  _id: req.params.id }, (err, book) => {
+  //     handleErr(err);
+  //     // res.json(book.favorite);
+  //     // return;
+  //     res.redirect('/api/books');
+  //     // res.render('all_books', { title: 'All Books', books:books });
+  //   });
+  // });
 
   // Add review
   router.post('/:id/review', (req, res, next) => {

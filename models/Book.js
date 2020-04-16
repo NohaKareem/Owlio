@@ -12,7 +12,7 @@ var bookSchema = new mongoose.Schema({
     title: String,
     author: String, 
     genre: String, 
-    categories: [String], 
+    // categories: [String], 
     pages: Number, 
     image: String, 
 

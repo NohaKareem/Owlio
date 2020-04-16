@@ -44,43 +44,6 @@ function findBookByBarcode() {
 	} );
 }
 
-function getBookDataByBarcode(barcode) {
-
-	console.log('before barcode')
-	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
-	// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
-	let title, isbn;
-	// axiosGET(barcode_api, (response) => {
-	// 		console.log('in  barcode request')
-
-	// 		title = response.data.item.matched_items[0].title; //barcodeable
-	// 		let isbn = response.data.item.isbn; //barcodable
-	// 		console.log('book data so far', bookData)
-
-			// retrieve author, book image, page numbers and genre (category) from google books api 
-			axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
-			// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
-				console.log('in google')
-				let volumeInfo = response.data.items[0].volumeInfo;
-				console.log(volumeInfo)
-
-				let bookData = {};
-				bookData.barcode = barcode;
-				bookData.title = title;
-				bookData.isbn = isbn;
-				bookData.author = volumeInfo.authors[0];
-				bookData.image = volumeInfo.imageLinks.thumbnail;
-				// bookData.image = response.data.items[0].volumeInfobookData.imageLinks.thumbnail;
-				bookData.pages = volumeInfo.pageCount;
-				bookData.genre = volumeInfo.categories[0];
-				console.log(bookData)
-		return bookData;
-	});
-			console.log('after google')
-		// });
-		console.log('book data @end', bookData)
-}
-
 function toggleReadingSession() {
 	// console.log('about to sms')
 	// sendMsg();
@@ -100,16 +63,49 @@ function toggleReadingSession() {
 		// add book if doesn't exist
 		// test (cookbook)9781501127618  9780310116400
 		if (!book) {
-			let newBook = getBookDataByBarcode(readingBarcode);
-			// let newBook = {
-			// 	barcode: readingBarcode//, 
-			// 	// isbn: isbn
-			// };
 
-			// add book
-			axiosPOST(`${SERVER}/book`, newBook, (response) => {
-				book = response.data;
+			// get data by barcode
+			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
+			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
+			let title, isbn;
+			// axiosGET(barcode_api, (response) => {
+			// 		console.log('in  barcode request')
+		
+			// 		title = response.data.item.matched_items[0].title; //barcodeable
+			// 		let isbn = response.data.item.isbn; //barcodable
+			// 		console.log('book data so far', bookData)
+		
+					// retrieve author, book image, page numbers and genre (category) from google books api 
+					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
+					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`, (response) => {
+						console.log('in google')
+						let volumeInfo = response.data.items[0].volumeInfo;
+						console.log(volumeInfo)
+						
+						let newBook = {};
+						// let bookData = {};
+						newBook.barcode = readingBarcode;
+						newBook.isbn = (isbn ? isbn : "");//~
+						newBook.title = volumeInfo.title;
+						newBook.author = volumeInfo.authors[0];
+						newBook.image = volumeInfo.imageLinks.thumbnail;
+						newBook.pages = volumeInfo.pageCount;
+						newBook.genre = volumeInfo.categories[0];
+						console.log('new book is ')
+						console.log(newBook)
+						// let newBook = {
+						// 	barcode: readingBarcode//, 
+						// 	// isbn: isbn
+						// };
+
+						// add book
+						axiosPOST(`${SERVER}/book`, newBook, (response) => {
+							console.log('saved book')
+							book = response.data;
+						});
 			});
+			// console.log('after google')
+		// });
 		} else {
 			console.log('book already exists')
 		}
@@ -122,10 +118,10 @@ function toggleReadingSession() {
 				// light_lumens: 
 			};
 			console.log('about to post session', newSession)
-			axiosPOST(`${SERVER}/session`, newSession, (response) => {
-				console.log('saved session start', response.data);
-				curr_session = response.data;
-			});
+			// axiosPOST(`${SERVER}/session`, newSession, (response) => {
+			// 	console.log('saved session start', response.data);
+			// 	curr_session = response.data;
+			// });
 		}
 	});
 }

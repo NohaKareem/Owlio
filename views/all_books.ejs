@@ -40,10 +40,10 @@
             <p>Rating: <%= books[i].rating  %></p> 
 
             <div>
-            <form action="/book/<%= books[i]._id %>/favorite" method="POST">
-              <input type="checkbox" name="favorite" id="favourite" class="fav-checkbox" onChange="submit()"/>
-              <label for="favourite" class="fav-label"></label>
-            </form>
+              <form action="/book/<%= books[i]._id %>/favorite" method="POST">
+                <input type="checkbox" name="favorite" id="favourite" class="fav-checkbox" onChange="submit()" <%= books[i].favorite ? "checked" : "" %> />
+                <label for="favorite" class="fav-label"></label>
+              </form>
             </div>
           </li>
 
