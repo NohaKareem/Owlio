@@ -46,7 +46,7 @@
 
               <% sessions.forEach(session=>{ %>
                 <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
-                 <li class="list-group-item"> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> </li>
+                 <li class="list-group-item"> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> read %> </li>
               <% }) %>
 
           </ul>
@@ -108,9 +108,9 @@
 
                   <div class="input-group mb-3">
                   <input type="text" id="barcodeInput" class="form-control">
-                  <div class="input-group-append">
+                  <!-- <div class="input-group-append">
                     <button class="btn btn-outline-secondary" id="barcodeButton" type="button">add book</button>
-                  </div>
+                  </div> -->
                 </div>
                   <div id="addedBook">
                       <h2 id="addedBookTitle"></h2>

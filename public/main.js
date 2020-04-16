@@ -5,6 +5,8 @@ console.log("Linked up");
 let barcode = document.querySelector('#barcodeInput');//'9780691158648';//'9780140157376';
 let barcodeButton = document.querySelector('#barcodeButton');
 let readingButton = document.querySelector('#readingButton');
+let addedBookImage = document.querySelector('#addedBookImage');
+let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
 var curr_session;
@@ -13,19 +15,15 @@ const SERVER = 'http://localhost:3000';
 // finds book by input barcode using barcodable API
 function findBookByBarcode() {
 	barcode = document.querySelector('#barcodeInput');
-	barcode = barcode.value;//9781455586691
-	// console.log(barcode);
+	barcode = barcode.value; // test 9781455586691
 
 	let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
-	// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
+	// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
 	axiosGET(barcode_api, (response) => {
 			console.log(response.data);
-			let addedBookTitle = document.querySelector('#addedBookTitle');
-			let addedBookImage = document.querySelector('#addedBookImage');
 			// let bookTitle = response.data.products[0].title; //barcodelookup
 			let bookTitle = response.data.item.matched_items[0].title; //barcodeable
 			let isbn = response.data.item.isbn; //barcodeable
-			// console.log(isbn);
 			addedBookTitle.innerHTML = bookTitle; 
 			// addedBookImage.src = response.data.products[0].images[0]; //barcodelookup
 			addedBookImage.alt = bookTitle + " image"; 
@@ -59,6 +57,9 @@ function toggleReadingSession() {
 	var book;
 	axiosGET(`${SERVER}/book/barcode/${readingBarcode}`, (response) => {
 		book = response.data;
+		addedBookImage.src = book.image;
+		addedBookTitle.alt = book.title + " image";
+		addedBookTitle.innerHTML = "Reading now: " + book.title; 
 		
 		// add book if doesn't exist
 		// test (cookbook)9781501127618  9781771642484 !9780310116400
@@ -96,11 +97,14 @@ function toggleReadingSession() {
 						axiosPOST(`${SERVER}/book`, newBook, (response) => {
 							console.log('saved book')
 							book = response.data;
+							addedBookImage.src = book.image;
+							addedBookTitle.alt = book.title + " image";
+							addedBookTitle.innerHTML = "Reading now: " + book.title; 
 						});
 			});
 		});
 		} else {
-			console.log('book already exists')
+			console.log('book already exists');
 		}
 
 		// if reading, start session
