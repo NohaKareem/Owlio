@@ -29,12 +29,12 @@ router.get('/:id', (req, res, next) => {
 });
   
 // GET a book session
-// test book id 5e836fba28dc636184951a9a  5e8e15a316738a7b00ed25af
+// test book id 5e8e125816738a7b00ed25ad 5e836fba28dc636184951a9a  5e8e15a316738a7b00ed25af
 router.get('/book/:id', (req, res, next) => {
-    Session.find({ book_id: req.params.id }, (err, session) => {
+    Session.find({ book_id: req.params.id }, (err, sessions) => {
         handleErr(err);
-        //res.json(session);
-        res.render('session_history', { title: 'Session History', session:session });
+        // res.json(sessions);
+        res.render('session_history', { title: 'Session History', sessions:sessions });
     });
 });
   
