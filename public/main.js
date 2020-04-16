@@ -9,7 +9,11 @@ let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
+<<<<<<< HEAD
+// let sms = document.querySelector('#sms');
+=======
 var photoresistorReading = -1;
+>>>>>>> f8438f64442ff8e556f56b94b94cb6c56ab295f6
 var curr_session;
 const SERVER = 'http://localhost:3000';
 
@@ -149,12 +153,15 @@ function axiosPOST(url, data, responseMethod) {
 	});
 }
 
+
 //twilio sms notifications method
-function sendMsg() {
+// function sendMsg() {
 	// const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
 	// const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
-	const client = require('twilio')(accountSid, authToken);
-	cronJob = require('cron').CronJob;
+	// const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
+	// const authToken = '1063070c39efe9746b2992002c3c40ad';
+	// const client = require('twilio')(accountSid, authToken);
+	// cronJob = require('cron').CronJob;
 
 	//That is a format specific to cron that let’s us define the time 
 	//and frequency of when we want this job to fire. In this case, 
@@ -162,19 +169,19 @@ function sendMsg() {
 	//http://www.nncron.ru/help/EN/working/cron-format.htm
 
 	//to: ' ' - put your cell phone number there
-	var textJob = new cronJob( '19 12 * * *', function() {
-	client.messages.create( { 
-			to:'+12262247542',
-			from: twilioPhoneNumber, 
-			body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-		}, function( err, data ) {
+	// var textJob = new cronJob( '19 12 * * *', function() {
+	// client.messages.create( { 
+	// 		to:'+12262247542',
+	// 		from: twilioPhoneNumber, 
+	// 		body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+	// 	}, function( err, data ) {
 
-		}).then(function(response) {
-			console.log('Message sent', data);
-		}).catch(function(err) {
-			console.error(error);
-		});
-	},  null, true);
+	// 	}).then(function(response) {
+	// 		console.log('Message sent', data);
+	// 	}).catch(function(err) {
+	// 		console.error(error);
+	// 	});
+	// },  null, true);
 
 	//This code is for non-timed messages
 
@@ -182,11 +189,13 @@ function sendMsg() {
 	//   .create({
 	//      body: "Hey there!👋 It's time for couple pages, isn't it?",
 	//      from: '+12058435519',
-	//      to: '+12262247542' //paste your own phone number
+	//      to: '+12269276883' //paste your own phone number
 	//    })
 	//   .then(message => console.log(message.sid));
+// }
+// sms.addEventListener("click", sendMsg, true);
+// console.log("sms run");
 
-}
 
 // barcodeButton.addEventListener("click", findBookByBarcode);
 
