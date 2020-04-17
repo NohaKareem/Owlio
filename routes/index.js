@@ -6,12 +6,13 @@ const client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
 
 
 /* GET home page. */
+// GET last 3 sessions to show in reading history, sorted by latest date
 router.get('/', function(req, res, next) {
   Session.find((err, sessions) => {
     handleErr(err);
     // res.json(sessions);
     res.render('index', { title: 'Owlio', sessions:sessions });
-  }).populate('book_id');;
+  }).limit(3).sort({ end_time: 'desc' }).populate('book_id');
 });
 
 /* GET testing page. */
@@ -27,11 +28,6 @@ function handleErr(err) {
 router.get('/sendSms', function(req, res, next) {
 
 //twilio sms notifications method
-// function sendMsg() {
-  // const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
-  // const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
-  // var smsConfig = require('../config.js'); // sms credentials
-  // const client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
 
   cronJob = require('cron').CronJob;
 
@@ -42,19 +38,20 @@ router.get('/sendSms', function(req, res, next) {
 
   //to: ' ' - put your cell phone number there
   console.log('about to write sms')
-  var textJob = new cronJob( '19 12 * * *', function() {
-  client.messages.create( { 
-      to:'+12262247542',
-      from: smsConfig.twilioPhoneNumber, 
-      body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-    }, function( err, data ) {
-      console.log('sending message')
-    }).then(function(response) {
-      console.log('Message sent', data);
-    }).catch(function(err) {
-      console.error(error);
-    });
-  },  null, true);
+  // var textJob = new cronJob( '19 12 * * *', function() {
+  cronJob.schedule( '* * * * *', function() {
+    client.messages.create({ 
+        to:'+12262247542',
+        from: smsConfig.twilioPhoneNumber, 
+        body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+      }, function( err, data ) {
+        console.log('sending message')
+      }).then(function(response) {
+        console.log('Message sent', data);
+      }).catch(function(err) {
+        console.error(error);
+      });
+  });//
 
   //This code is for non-timed messages
   // client.messages
@@ -64,9 +61,6 @@ router.get('/sendSms', function(req, res, next) {
   //      to: '+12262247542' //paste your own phone number
   //    })
   //   .then(message => console.log(message.sid));
-
-// }
-
 });
 
 
