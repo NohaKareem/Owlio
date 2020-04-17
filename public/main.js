@@ -64,47 +64,41 @@ function toggleReadingSession() {
 		addedBookTitle.innerHTML = "Reading now: " + book.title; 
 		
 		// add book if doesn't exist
-		// test (cookbook)9781501127618  9781771642484 !9780310116400
+		// test 9781501127618  9781771642484
 		if (!book) {
-
 			// get data by barcode
-			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${readingBarcode}`;
+			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${readingBarcode}`;
 			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
-			let title, isbn;
+			// let title, isbn;
 			// axiosGET(barcode_api, (response) => {
-					// console.log('in  barcode response', response.data)
-		
-					// title = response.data.item.matched_items[0].title; //barcodeable
-					// let isbn = response.data.item.isbn; //barcodable
-					// console.log(isbn)
-					// console.log(isbn==undefined)
-		
-					// retrieve author, book image, page numbers and genre (category) from google books api (directly using barcode)
-					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
-					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${readingBarcode}`, (response) => {
-						// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
-						console.log('in google', response.data)
-						let volumeInfo = response.data.items[0].volumeInfo;
-						console.log(volumeInfo)
-						
-						let newBook = {};
-						newBook.barcode = readingBarcode;
-						newBook.isbn = isbn;
-						newBook.title = volumeInfo.title;
-						newBook.author = volumeInfo.authors[0];
-						newBook.image = volumeInfo.imageLinks.thumbnail;
-						newBook.pages = volumeInfo.pageCount;
-						newBook.genre = volumeInfo.categories[0];
-						console.log('new book is ', newBook)
+			// title = response.data.item.matched_items[0].title; //barcodeable
+			// let isbn = response.data.item.isbn; //barcodable
 
-						// add book
-						axiosPOST(`${SERVER}/book`, newBook, (response) => {
-							console.log('saved book')
-							book = response.data;
-							addedBookImage.src = book.image;
-							addedBookTitle.alt = book.title + " image";
-							addedBookTitle.innerHTML = "Reading now: " + book.title; 
-						});
+			// retrieve author, book image, page numbers and genre (category) from google books api (directly using barcode)
+			axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${readingBarcode}`, (response) => {
+				// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
+				console.log('in google', response.data)
+				let volumeInfo = response.data.items[0].volumeInfo;
+				// console.log(volumeInfo)
+				
+				let newBook = {};
+				newBook.barcode = readingBarcode;
+				newBook.isbn = volumeInfo.industryIdentifiers[0].identifier;
+				newBook.title = volumeInfo.title;
+				newBook.author = volumeInfo.authors[0];
+				newBook.image = volumeInfo.imageLinks.thumbnail;
+				newBook.pages = volumeInfo.pageCount;
+				newBook.genre = volumeInfo.categories[0];
+				console.log('new book is ', newBook)
+
+				// add book
+				axiosPOST(`${SERVER}/book`, newBook, (response) => {
+					console.log('saved book')
+					book = response.data;
+					addedBookImage.src = book.image;
+					addedBookTitle.alt = book.title + " image";
+					addedBookTitle.innerHTML = "Reading now: " + book.title; 
+				});
 			});
 		// });
 		} else {
@@ -163,50 +157,6 @@ function axiosPOST(url, data, responseMethod) {
 		console.error(error);
 	});
 }
-
-
-//twilio sms notifications method
-// function sendMsg() {
-	// const accountSid = config.accountSid; // 'ACcfb485c8e5af917e9dcafefec52e9053';
-	// const authToken = config.authToken; // '1063070c39efe9746b2992002c3c40ad';
-	// const accountSid = 'ACcfb485c8e5af917e9dcafefec52e9053';
-	// const authToken = '1063070c39efe9746b2992002c3c40ad';
-	// const client = require('twilio')(accountSid, authToken);
-	// cronJob = require('cron').CronJob;
-
-	//That is a format specific to cron that let’s us define the time 
-	//and frequency of when we want this job to fire. In this case, 
-	//at 01 minutes 17 hours every day. Check time specifics via link below:
-	//http://www.nncron.ru/help/EN/working/cron-format.htm
-
-	//to: ' ' - put your cell phone number there
-	// var textJob = new cronJob( '19 12 * * *', function() {
-	// client.messages.create( { 
-	// 		to:'+12262247542',
-	// 		from: twilioPhoneNumber, 
-	// 		body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-	// 	}, function( err, data ) {
-
-	// 	}).then(function(response) {
-	// 		console.log('Message sent', data);
-	// 	}).catch(function(err) {
-	// 		console.error(error);
-	// 	});
-	// },  null, true);
-
-	//This code is for non-timed messages
-
-	// client.messages
-	//   .create({
-	//      body: "Hey there!👋 It's time for couple pages, isn't it?",
-	//      from: '+12058435519',
-	//      to: '+12269276883' //paste your own phone number
-	//    })
-	//   .then(message => console.log(message.sid));
-// }
-// sms.addEventListener("click", sendMsg, true);
-// console.log("sms run");
-
 
 // barcodeButton.addEventListener("click", findBookByBarcode);
 
