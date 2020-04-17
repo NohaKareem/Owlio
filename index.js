@@ -17,7 +17,6 @@ let proximity;
 // let pixel = require("node-pixel");
 // let strip = null;
 
-
 arduino.on('ready', function(){
     console.log("arduino is running!");
 
