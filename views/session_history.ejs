@@ -20,30 +20,36 @@
     <div class="container-fluid">
         <% include components/navbar %>
         <div class="container">
+            <div>
+
             <% if(sessions.length < 1) { %>
                 <div class="ses-info">No reading sessions for this book yet!</div>
             <% } %>
-            
+            <div>
             <% sessions.forEach((session) => { %>
 
                 <div class="card session-card">
+
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><p>Start: <%= session.start_time  %></p></li>
-                        <li class="list-group-item"><p>End: <%= session.end_time %></p></li>
-                        <li class="list-group-item"><p>Comment: <%= session.comment  %></p>
-                        <a href="/session/comment"><button type="submit" class="btn btn-outline-secondary">Edit</button></a></li>
+                            <li class="list-group-item"><p>Start: <%= session.start_time  %></p></li>
+                            <li class="list-group-item"><p>End: <%= session.end_time %></p></li>
+                            <li class="list-group-item"><p>Comment: <%= session.comment  %></p>
+                            
+                                <form action="/session/<%= session._id %>/comment">
+                                <input class="ses-comment-area" type="text" value="<%= session.comment  %>"><br>
+                                <input type="submit" class="btn btn-outline-secondary" value="update">
+                                </form>
+                            </li>
                     </ul>
-                        <form action="/session/<%= session._id %>/comment">
-                        <input type="text" value="<%= session.comment  %>">
-                        <input type="submit" value="update">
-                    </form>
-                <div>
-
-
+                        
                 </div>
+
             <% }) %>
-            <a href="/api/books"><button type="submit" class="btn btn-outline">Back</button></a>
+            </div>
+            <div>
+                <a href="/api/books"><button type="submit" class="btn btn-outline">Back</button></a>
+            </div>
         </div>
-    </div>
+            
 </body>
 </html>
