@@ -68,7 +68,6 @@ router.get('/sendSms', function(req, res, next) {
   //http://www.nncron.ru/help/EN/working/cron-format.htm
 
   //to: ' ' - put your cell phone number there
-<<<<<<< HEAD
  
   // console.log('about to write sms')
   // var textJob = new CronJob( '19 12 * * *', function() {
@@ -85,23 +84,6 @@ router.get('/sendSms', function(req, res, next) {
   //     console.error(error);
   //   });
   // });
-=======
-  console.log('about to write sms')
-  // var textJob = new cronJob( '19 12 * * *', function() {
-  cronJob.schedule( '* * * * *', function() {
-    client.messages.create({ 
-        to:'+12262247542',
-        from: smsConfig.twilioPhoneNumber, 
-        body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-      }, function( err, data ) {
-        console.log('sending message')
-      }).then(function(response) {
-        console.log('Message sent', data);
-      }).catch(function(err) {
-        console.error(error);
-      });
-  });//
->>>>>>> a6b8b9b93d5b8661301e850c4855f2ae76e7f28c
 
   // client.messages
   //   .create({
@@ -110,14 +92,10 @@ router.get('/sendSms', function(req, res, next) {
   //      to: '+12262247542' //paste your own phone number
   //    })
   //   .then(message => console.log(message.sid));
-<<<<<<< HEAD
 
 // }
 
 // });
-=======
-});
->>>>>>> a6b8b9b93d5b8661301e850c4855f2ae76e7f28c
 
 
 module.exports = router;
