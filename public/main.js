@@ -9,11 +9,8 @@ let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
-<<<<<<< HEAD
 // let sms = document.querySelector('#sms');
-=======
 var photoresistorReading = -1;
->>>>>>> f8438f64442ff8e556f56b94b94cb6c56ab295f6
 var curr_session;
 const SERVER = 'http://localhost:3000';
 

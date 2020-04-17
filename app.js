@@ -6,7 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-// var twilio = require('twilio');
+var twilio = require('twilio');
 
 var indexRouter = require('./routes/index');
 var bookRouter = require('./routes/book');
@@ -151,41 +151,6 @@ arduino.on('ready', function(){
             io.sockets.emit('lightsoff', "OFF!");
         }
     });
-
-    // neopixel lights
-                // strip = new pixel.Strip({
-                //     board: this,
-                //     controller: "FIRMATA",
-                //     strips: [ {pin: 7, length: 12}],
-                //     gamma: 2.8,
-                // });
-
-                // strip.on("ready", function() {
-                // console.log("light up");
-                // strip.color('#903');
-                // strip.pixel(0).color('#074');
-
-                // strip.show();    
-
-        // var loop = setInterval(function () {
-        //     strip.shift(1, pixel.FORWARD, true);
-        //     strip.show();
-        // }, 1000 / 12);
-                // });  
-
-                // this.repl.inject({
-                //     strip: strip
-                // });
-
-        // strip.on("ready", function() {
-        //     console.log("light up")
-
-        //     for (i = 0; i < strip.stripLength(); i++) {
-        //         console.log(i);
-        //         strip.pixel(i).color("teal");
-        //     }
-        //     strip.show();
-        // });
 }); 
 
 module.exports = app;
