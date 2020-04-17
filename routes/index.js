@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Session = require('../models/Session.js');
 var smsConfig = require('../config.js'); // sms credentials
-const client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
+var client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
+var twilionum = (smsConfig.twilioPhoneNumber);
 
 
 /* GET home page. */
@@ -27,9 +28,39 @@ function handleErr(err) {
 // sms 
 router.get('/sendSms', function(req, res, next) {
 
+  //This code is for non-timed messages
+  client.messages.create({
+      to:'+12267008563',
+      from: twilionum, 
+      body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+    }, 
+    function( err, data ) {
+      if(err)
+      console.log(err);
+      console.log(data);
+        //   console.log('sending message')
+        // }).then(function(response) {
+        //   console.log('Message sent', data);
+        // }).catch(function(err) {
+        //   console.error(error);
+        // });
+  }) .then((message)=>console.log(message.sid))
+});
+
+  // router.get('/create', function(req, res, next){
+  //   res.render('appointments/create', {
+  //     timeZones: getTimeZones(),
+  //     appointment: new Appointment({
+  //       phone_number: '', 
+  //       days_of_week: '',
+  //       time: ''
+  //     })
+  //   });
+  // });
+
 //twilio sms notifications method
 
-  cronJob = require('cron').CronJob;
+  // const CronJob = require('cron').CronJob;
 
   //That is a format specific to cron that let’s us define the time 
   //and frequency of when we want this job to fire. In this case, 
@@ -37,23 +68,23 @@ router.get('/sendSms', function(req, res, next) {
   //http://www.nncron.ru/help/EN/working/cron-format.htm
 
   //to: ' ' - put your cell phone number there
-  console.log('about to write sms')
-  // var textJob = new cronJob( '19 12 * * *', function() {
-  cronJob.schedule( '* * * * *', function() {
-    client.messages.create({ 
-        to:'+12262247542',
-        from: smsConfig.twilioPhoneNumber, 
-        body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-      }, function( err, data ) {
-        console.log('sending message')
-      }).then(function(response) {
-        console.log('Message sent', data);
-      }).catch(function(err) {
-        console.error(error);
-      });
-  });//
+ 
+  // console.log('about to write sms')
+  // var textJob = new CronJob( '19 12 * * *', function() {
 
-  //This code is for non-timed messages
+  // client.messages.create( { 
+  //     to:'+12262247542',
+  //     from: '+14158708271', 
+  //     body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+  //   }, function( err, data ) {
+  //     console.log('sending message')
+  //   }).then(function(response) {
+  //     console.log('Message sent', data);
+  //   }).catch(function(err) {
+  //     console.error(error);
+  //   });
+  // });
+
   // client.messages
   //   .create({
   //      body: "Hey there!👋 It's time for couple pages, isn't it?",
@@ -61,7 +92,10 @@ router.get('/sendSms', function(req, res, next) {
   //      to: '+12262247542' //paste your own phone number
   //    })
   //   .then(message => console.log(message.sid));
-});
+
+// }
+
+// });
 
 
 module.exports = router;
