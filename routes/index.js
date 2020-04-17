@@ -77,7 +77,7 @@ router.get('/sendScheduledSms', function(req, res, next) {
           client.messages.create({
             to: readerNum, //'+12267008563',//'+12267008563',
             from: twilionum, 
-            body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+            body:'Hello!👋 Hope you’re having a good day! This is a scheduled reading reminder, wanna read?' 
           }, 
           function( err, data ) {
             if(err)
