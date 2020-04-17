@@ -6,12 +6,13 @@ const client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
 
 
 /* GET home page. */
+// GET last 3 sessions to show in reading history, sorted by latest date
 router.get('/', function(req, res, next) {
   Session.find((err, sessions) => {
     handleErr(err);
     // res.json(sessions);
     res.render('index', { title: 'Owlio', sessions:sessions });
-  }).populate('book_id');;
+  }).limit(3).sort({ end_time: 'desc' }).populate('book_id');
 });
 
 /* GET testing page. */
