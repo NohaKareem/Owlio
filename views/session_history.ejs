@@ -21,20 +21,28 @@
         <% include components/navbar %>
         <div class="container">
             <% if(sessions.length < 1) { %>
-                <div>No reading sessions for this book yet!</div>
+                <div class="ses-info">No reading sessions for this book yet!</div>
             <% } %>
             
             <% sessions.forEach((session) => { %>
-                <div>
-                    <p>Session started at: <%= session.start_time  %></p>
-                    <p>Session ended: <%= session.end_time %></p>
-                    <p>Session comment: </p>
-                    <form action="/session/<%= session._id %>/comment">
+
+                <div class="card session-card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><p>Start: <%= session.start_time  %></p></li>
+                        <li class="list-group-item"><p>End: <%= session.end_time %></p></li>
+                        <li class="list-group-item"><p>Comment: <%= session.comment  %></p>
+                        <a href="/session/comment"><button type="submit" class="btn btn-outline-secondary">Edit</button></a></li>
+                    </ul>
+                                        <form action="/session/<%= session._id %>/comment">
                         <input type="text" value="<%= session.comment  %>">
                         <input type="submit" value="update">
                     </form>
+                <div>
+
+
                 </div>
             <% }) %>
+            <a href="/api/books"><button type="submit" class="btn btn-outline">Back</button></a>
         </div>
     </div>
 </body>
