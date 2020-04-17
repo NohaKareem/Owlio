@@ -68,20 +68,21 @@ function toggleReadingSession() {
 		if (!book) {
 
 			// get data by barcode
-			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
+			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${readingBarcode}`;
 			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
 			let title, isbn;
-			axiosGET(barcode_api, (response) => {
-					console.log('in  barcode response', response.data)
+			// axiosGET(barcode_api, (response) => {
+					// console.log('in  barcode response', response.data)
 		
-					title = response.data.item.matched_items[0].title; //barcodeable
-					let isbn = response.data.item.isbn; //barcodable
-					console.log(isbn)
-					console.log(isbn==undefined)
+					// title = response.data.item.matched_items[0].title; //barcodeable
+					// let isbn = response.data.item.isbn; //barcodable
+					// console.log(isbn)
+					// console.log(isbn==undefined)
 		
-					// retrieve author, book image, page numbers and genre (category) from google books api 
+					// retrieve author, book image, page numbers and genre (category) from google books api (directly using barcode)
 					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
-					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
+					axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${readingBarcode}`, (response) => {
+						// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
 						console.log('in google', response.data)
 						let volumeInfo = response.data.items[0].volumeInfo;
 						console.log(volumeInfo)
@@ -105,7 +106,7 @@ function toggleReadingSession() {
 							addedBookTitle.innerHTML = "Reading now: " + book.title; 
 						});
 			});
-		});
+		// });
 		} else {
 			console.log('book already exists');
 		}
