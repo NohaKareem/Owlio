@@ -10,12 +10,13 @@ router.get('/new', function(req, res, next) {
 
 // Update book session comment
 router.post('/:id/comment', (req, res, next) => {
-Session.findOneAndUpdate({ _id: req.params.id },
+    let q = Session.findOneAndUpdate({ _id: req.params.id },
     { "comment": req.body.comment });
-    // newBook.save((err, data) => { 
-    //     handleErr(err);
-    //     console.log("Session comment updated", data);
-    // });
+
+    q.exec(function(err, data) {
+        console.log('updated session', data);
+    });
+    
     console.log("Session comment updated", data);
 });
 
@@ -77,43 +78,38 @@ router.post('/', (req, res, next) => {
     // res.redirect('/');
 });
 
-// // Update session end time
-// router.post('/end_time/:id', (req, res, next) => {
-//     let start_time = req.body.start_time;
-//     let end_time = req.body.end_time;
+// Update session end time
+router.post('/end_time/:id', (req, res, next) => {
+    let end_time = req.body.end_time;
+   
+    // wrap end_time in a date object, to be saved as Date datatype in mongo
+    if (end_time != undefined) {
+        let end_date = new Date();
+        end_date.setHours(end_time.split(':')[0], end_time.split(':')[1]);
+        end_time = end_date;
+    }
 
-//     // wrap start_time in a date object, to be saved as Date datatype in mongo
-//     if (start_time != undefined) {
-//         let start_date = new Date();
-//         start_date.setHours(start_time.split(':')[0], start_time.split(':')[1]);
-//         start_time = start_date;
-//     }
-//     // wrap end_time in a date object, to be saved as Date datatype in mongo
-//     if (end_time != undefined) {
-//         let end_date = new Date();
-//         end_date.setHours(end_time.split(':')[0], end_time.split(':')[1]);
-//         end_time = end_date;
-//     }
-//     console.log('after time set')
+    let q = Session.findOneAndUpdate({ _id: req.params.id },
+        { "end_time": end_time });
+    
+        q.exec(function(err, data) {
+            console.log('updated session', end_time);
+            res.json(data);
+        });
+  
+    // // add new session
+    // var newSession = new Session();
+    // if (end_time != undefined) newSession.end_time = end_time;
 
-//     // add new session
-//     var newSession = new Session();
-//     if (start_time != undefined) newSession.start_time = start_time;
-//     if (end_time != undefined) newSession.end_time = end_time;
-//     if (req.body.book_id != undefined) newSession.book_id = req.body.book_id;
-//     if (req.body.comment != undefined) newSession.comment = req.body.comment;
-//     if(req.body.light_lumens != undefined) newSession.light_lumens = req.body.light_lumens;
-//     console.log('about to save', newSession)
+    // newSession.save((err, data) => { 
+    //     handleErr(err);
+    //     console.log("Session saved to data collection", data);
+    //     res.json(data);
+    //     // return;
+    // });
 
-//     newSession.save((err, data) => { 
-//         handleErr(err);
-//         console.log("Session saved to data collection", data);
-//         res.json(data);
-//         // return;
-//     });
-
-//     // res.redirect('/');
-// });
+    // res.redirect('/');
+});
 
     // get session data, with populated book data
     // test /session/5e869f8875fbcae590db6e60/book/details
