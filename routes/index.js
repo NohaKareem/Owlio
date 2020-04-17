@@ -28,7 +28,6 @@ function handleErr(err) {
 
 // sms 
 router.get('/sendSms', function(req, res, next) {
-
   Setting.findOne({  _id: "5e875da13520f25d2858768f" }, (err, settings) => {
       handleErr(err);
       // res.json(settings);
@@ -51,12 +50,53 @@ router.get('/sendSms', function(req, res, next) {
           //   console.error(error);
           // });
     }) .then((message)=>console.log(message.sid))
-
     res.render('settings', { title: 'Settings', settings: settings });
-  });
-  
-  
+  });  
 });
+
+// send scheduled sms  
+router.get('/sendScheduledSms', function(req, res, next) {
+  console.log('in scheduled sms')
+
+  Setting.findOne({ _id: "5e875da13520f25d2858768f" }, (err, settings) => {
+      handleErr(err);
+      // res.json(settings);
+      let readerNum = settings.phone_number;
+      let hours = settings.time.getHours();
+      let minutes = settings.time.getMinutes();
+      console.log(hours, ":", minutes)
+      console.log('sending scheduled text to readerNum ', readerNum);
+      
+      const CronJob = require('cron').CronJob;
+
+      // set a reminder per day of week
+      settings.days_of_week.forEach(day => {
+        console.log('day', day)
+        new CronJob(minutes + " " + hours + " * * " + day + " *", function() {
+          // new CronJob("* * * * *", function() {
+          client.messages.create({
+            to: readerNum, //'+12267008563',//'+12267008563',
+            from: twilionum, 
+            body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+          }, 
+          function( err, data ) {
+            if(err)
+            console.log(err);
+            console.log(data);
+              //   console.log('sending message')
+              // }).then(function(response) {
+              //   console.log('Message sent', data);
+              // }).catch(function(err) {
+              //   console.error(error);
+              // });
+        }) .then((message)=>console.log(message.sid));
+  
+      res.render('settings', { title: 'Settings', settings: settings });
+    });  
+      })
+});
+});
+
 
   // router.get('/create', function(req, res, next){
   //   res.render('appointments/create', {
@@ -78,8 +118,6 @@ router.get('/sendSms', function(req, res, next) {
   //at 01 minutes 17 hours every day. Check time specifics via link below:
   //http://www.nncron.ru/help/EN/working/cron-format.htm
 
-  //to: ' ' - put your cell phone number there
- 
   // console.log('about to write sms')
   // var textJob = new CronJob( '19 12 * * *', function() {
 

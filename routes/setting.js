@@ -69,7 +69,10 @@ router.post('/:id', (req, res, next) => {
     q.exec(function(err, data) {
         console.log('updated settings', data);
     });
-    res.redirect('/');
+    
+    // update sms settings
+    console.log('redirecting to scheduled sms')
+    res.redirect('/sendScheduledSms');
 });
 
 // future work - light settings
