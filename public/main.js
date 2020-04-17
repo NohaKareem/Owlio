@@ -114,7 +114,8 @@ function toggleReadingSession() {
 		// if reading, start session
 		if (reading) {
 			let newSession = {
-				start_time: new Date(), // current time stamp 
+				start_time: new Date().getHours() + ":" + new Date().getMinutes(), // current time stamp 
+				end_time: new Date().getHours() + ":" + new Date().getMinutes(), // current time stamp as intial end tim 
 				book_id: book._id,
 				light_lumens: photoresistorReading // current photoresistor reading
 			};
@@ -123,6 +124,17 @@ function toggleReadingSession() {
 				console.log('saved session start', response.data);
 				curr_session = response.data;
 			});
+		} 
+		// save session end time
+		else {
+			let newSession = {
+				end_time: new Date().getHours() + ":" + new Date().getMinutes(), // current time stamp as intial end tim 
+			};
+			axiosPOST(`${SERVER}/session/end_time/${curr_session._id}`, newSession, (response) => {
+				console.log('saved session end', response.data);
+				curr_session = response.data;
+			});
+
 		}
 	});
 }
