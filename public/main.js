@@ -66,14 +66,15 @@ function toggleReadingSession() {
 		// add book if doesn't exist
 		// test 9781501127618  9781771642484
 		if (!book) {
-			// get data by barcode
-			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${readingBarcode}`;
-			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
-			// let title, isbn;
-			// axiosGET(barcode_api, (response) => {
-			// title = response.data.item.matched_items[0].title; //barcodeable
-			// let isbn = response.data.item.isbn; //barcodable
-
+			/*	// alternate apis
+				// get data by barcode
+				let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${readingBarcode}`;
+				// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
+				let title, isbn;
+				axiosGET(barcode_api, (response) => {
+				title = response.data.item.matched_items[0].title; //barcodeable
+				let isbn = response.data.item.isbn; //barcodable
+			*/
 			// retrieve author, book image, page numbers and genre (category) from google books api (directly using barcode)
 			axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${readingBarcode}`, (response) => {
 				// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=${isbn}`, (response) => {
