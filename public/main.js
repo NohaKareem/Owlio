@@ -109,9 +109,9 @@ function toggleReadingSession() {
 		} else {
 			console.log('book already exists');
 		}
-
-		// if reading, start session
-		if (reading) {
+		
+		// if reading (and a valid book is being read), start session
+		if (reading && book._id) {
 			let newSession = {
 				start_time: new Date().getHours() + ":" + new Date().getMinutes(), // current time stamp 
 				end_time: new Date().getHours() + ":" + new Date().getMinutes(), // current time stamp as intial end tim 

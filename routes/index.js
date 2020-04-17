@@ -30,7 +30,7 @@ router.get('/sendSms', function(req, res, next) {
 
   //This code is for non-timed messages
   client.messages.create({
-      to:'+12267008563',
+      to: '+12267008563',//'+12267008563',
       from: twilionum, 
       body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
     }, 
