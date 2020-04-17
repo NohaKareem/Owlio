@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Session = require('../models/Session.js');
+var Setting = require('../models/Setting.js');
 var smsConfig = require('../config.js'); // sms credentials
 var client = require('twilio')(smsConfig.accountSid, smsConfig.authToken);
 var twilionum = (smsConfig.twilioPhoneNumber);
@@ -28,23 +29,33 @@ function handleErr(err) {
 // sms 
 router.get('/sendSms', function(req, res, next) {
 
-  //This code is for non-timed messages
-  client.messages.create({
-      to: '+12267008563',//'+12267008563',
-      from: twilionum, 
-      body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
-    }, 
-    function( err, data ) {
-      if(err)
-      console.log(err);
-      console.log(data);
-        //   console.log('sending message')
-        // }).then(function(response) {
-        //   console.log('Message sent', data);
-        // }).catch(function(err) {
-        //   console.error(error);
-        // });
-  }) .then((message)=>console.log(message.sid))
+  Setting.findOne({  _id: "5e875da13520f25d2858768f" }, (err, settings) => {
+      handleErr(err);
+      // res.json(settings);
+      let readerNum = settings.phone_number;
+      console.log('sending to readerNum ', readerNum)
+      //This code is for non-timed messages
+      client.messages.create({
+        to: readerNum, //'+12267008563',//'+12267008563',
+        from: twilionum, 
+        body:'Hello!👋 Hope you’re having a good day! Wanna read?' 
+      }, 
+      function( err, data ) {
+        if(err)
+        console.log(err);
+        console.log(data);
+          //   console.log('sending message')
+          // }).then(function(response) {
+          //   console.log('Message sent', data);
+          // }).catch(function(err) {
+          //   console.error(error);
+          // });
+    }) .then((message)=>console.log(message.sid))
+
+    res.render('settings', { title: 'Settings', settings: settings });
+  });
+  
+  
 });
 
   // router.get('/create', function(req, res, next){
