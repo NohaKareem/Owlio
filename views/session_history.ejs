@@ -33,7 +33,7 @@
                         <li class="list-group-item"><p>Comment: <%= session.comment  %></p>
                         <a href="/session/comment"><button type="submit" class="btn btn-outline-secondary">Edit</button></a></li>
                     </ul>
-                                        <form action="/session/<%= session._id %>/comment">
+                        <form action="/session/<%= session._id %>/comment">
                         <input type="text" value="<%= session.comment  %>">
                         <input type="submit" value="update">
                     </form>

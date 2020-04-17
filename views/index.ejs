@@ -43,7 +43,6 @@
       <h4>Reading History</h4>
           <ul class="list-group list-group-flush">
               
-
               <% sessions.forEach(session=>{ %>
                 <!-- pad out hours and minutes with leading zeros https://stackoverflow.com/a/20460414 -->
                  <li class="list-group-item"> <%= session.end_time.toDateString() %> - <%= ("0"+session.end_time.getHours()).slice(-2) %>:<%= ("0"+session.end_time.getMinutes()).slice(-2) %> read <%= session.book_id.title %> %> </li>
@@ -52,8 +51,6 @@
           </ul>
           </div>
 
-          
-       
           <div id="book-slider">
               
               <div class="hor-scroll">

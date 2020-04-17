@@ -9,11 +9,8 @@ let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');
 let readingBarcodeInput = document.querySelector('#readingBarcodeInput');
 let reading = false;
-<<<<<<< HEAD
 // let sms = document.querySelector('#sms');
-=======
 var photoresistorReading = -1;
->>>>>>> f8438f64442ff8e556f56b94b94cb6c56ab295f6
 var curr_session;
 const SERVER = 'http://localhost:3000';
 
@@ -72,13 +69,15 @@ function toggleReadingSession() {
 
 			// get data by barcode
 			let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodable.com/api/v1/upc/${barcode}`;
-			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${key}`;
+			// let barcode_api = `https://cors-anywhere.herokuapp.com/https://api.barcodelookup.com/v2/products?barcode=${barcode}&formatted=y&key=${API_KEY}`;
 			let title, isbn;
 			axiosGET(barcode_api, (response) => {
 					console.log('in  barcode response', response.data)
 		
 					title = response.data.item.matched_items[0].title; //barcodeable
 					let isbn = response.data.item.isbn; //barcodable
+					console.log(isbn)
+					console.log(isbn==undefined)
 		
 					// retrieve author, book image, page numbers and genre (category) from google books api 
 					// axiosGET(`https://www.googleapis.com/books/v1/volumes?q=isbn:9781501127618`, (response) => {
@@ -120,10 +119,10 @@ function toggleReadingSession() {
 				light_lumens: photoresistorReading // current photoresistor reading
 			};
 			console.log('about to post session', newSession)
-			// axiosPOST(`${SERVER}/session`, newSession, (response) => {
-			// 	console.log('saved session start', response.data);
-			// 	curr_session = response.data;
-			// });
+			axiosPOST(`${SERVER}/session`, newSession, (response) => {
+				console.log('saved session start', response.data);
+				curr_session = response.data;
+			});
 		}
 	});
 }
