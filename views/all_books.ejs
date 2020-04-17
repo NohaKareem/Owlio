@@ -41,8 +41,8 @@
 
             <div>
               <form action="/book/<%= books[i]._id %>/favorite" method="POST">
-                <input type="checkbox" name="favorite" id="favorite" class="fav-checkbox" onChange="submit()" <%= books[i].favorite ? "checked" : "" %> />
-                <label for="favorite" class="fav-label"></label>
+                <input type="checkbox" name="favorite" id="<%= books[i].title  %>" class="fav-checkbox" onChange="submit()" <%= books[i].favorite ? "checked" : "" %> />
+                <label for="<%= books[i].title  %>" class="fav-label"></label>
               </form>
             </div>
           </li>
