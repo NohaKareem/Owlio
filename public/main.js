@@ -94,8 +94,7 @@ function toggleReadingSession() {
 						newBook.image = volumeInfo.imageLinks.thumbnail;
 						newBook.pages = volumeInfo.pageCount;
 						newBook.genre = volumeInfo.categories[0];
-						console.log('new book is ')
-						console.log(newBook)
+						console.log('new book is ', newBook)
 
 						// add book
 						axiosPOST(`${SERVER}/book`, newBook, (response) => {
