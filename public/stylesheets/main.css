@@ -365,6 +365,10 @@ label.fav-label {
   font-size: 1rem;
 }
 
+.session-card .ses-comment-area{
+  min-width: 100%;
+}
+
 
 
 
