@@ -3,7 +3,7 @@ console.log("Linked up");
 
 //barcode
 let barcode = document.querySelector('#barcodeInput');//'9780691158648';//'9780140157376';
-let barcodeButton = document.querySelector('#barcodeButton');
+// let barcodeButton = document.querySelector('#barcodeButton');
 let readingButton = document.querySelector('#readingButton');
 let addedBookImage = document.querySelector('#addedBookImage');
 let addedBookTitle = document.querySelector('#addedBookTitle');

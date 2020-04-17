@@ -226,6 +226,19 @@ color: #fff;
   color: #fff !important;  
 }
 
+.btn-outline{
+  margin-top: 2rem;
+  background-color: #fff !important;
+  border: 1px solid #F28921 !important; 
+  color: #000 !important; 
+}
+
+.btn-outline:hover{
+  background-color: #F28921 !important;
+  border: 1px solid #F28921 !important;
+  color: #fff !important;  
+}
+
 #book-item{
 padding-right: 90px;
 padding-left: 270px;
@@ -336,6 +349,24 @@ input[type=checkbox].fav-checkbox:checked + label.fav-label {
 }
 label.fav-label {
   background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_1437560032a3e1345ce3a7bb5fec77cc.png);
+}
+
+.ses-info{
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.session-card{
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+.session-card p{
+  font-size: 1rem;
+}
+
+.session-card .ses-comment-area{
+  min-width: 100%;
 }
 
 
