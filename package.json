@@ -26,7 +26,7 @@
     "morgan": "~1.9.1",
     "node-pixel": "^0.10.2",
     "nodebots-interchange": "^2.0.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "twilio": "^3.42.2"
   },
   "description": "A reading companion app",
